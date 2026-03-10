@@ -1,197 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Filtro de Personas</title>
-
-<style>
-
-body{
-font-family: Arial, sans-serif;
-background:#f4f4f4;
-padding:20px;
-}
-
-h2{
-text-align:center;
-}
-
-.filtros{
-background:white;
-padding:15px;
-margin-bottom:20px;
-border-radius:8px;
-}
-
-label{
-margin-right:10px;
-}
-
-select{
-margin-right:20px;
-padding:5px;
-}
-
-.persona{
-background:white;
-padding:10px;
-margin-bottom:10px;
-border-radius:6px;
-border-left:5px solid #3498db;
-}
-
-.oculto{
-display:none;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro de Personas</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h2>Filtro de Personas</h2>
+    <h2>Filtro de Personas</h2>
 
-<div class="filtros">
+    <div class="filtros">
+        <label>Ciudad:</label>
+        <select id="filtroCiudad">
+            <option value="todos">Todos</option>
+            <option value="Tijuana">Tijuana</option>
+            <option value="Mexicali">Mexicali</option>
+            <option value="Ensenada">Ensenada</option>
+        </select>
 
-<label>Ciudad:</label>
-<select id="filtroCiudad">
-<option value="todos">Todos</option>
-<option value="Tijuana">Tijuana</option>
-<option value="Mexicali">Mexicali</option>
-<option value="Ensenada">Ensenada</option>
-</select>
+        <label>Edad:</label>
+        <select id="filtroEdad">
+            <option value="todos">Todos</option>
+            <option value="18-25">18-25</option>
+            <option value="26-35">26-35</option>
+            <option value="36-50">36-50</option>
+        </select>
 
-<label>Edad:</label>
-<select id="filtroEdad">
-<option value="todos">Todos</option>
-<option value="18-25">18-25</option>
-<option value="26-35">26-35</option>
-<option value="36-50">36-50</option>
-</select>
+        <label>Sexo:</label>
+        <select id="filtroSexo">
+            <option value="todos">Todos</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+        </select>
 
-<label>Sexo:</label>
-<select id="filtroSexo">
-<option value="todos">Todos</option>
-<option value="Masculino">Masculino</option>
-<option value="Femenino">Femenino</option>
-</select>
+        <label>Tipo de Sangre:</label>
+        <select id="filtroSangre">
+            <option value="todos">Todos</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+        </select>
 
-<label>Tipo de Sangre:</label>
-<select id="filtroSangre">
-<option value="todos">Todos</option>
-<option value="A+">A+</option>
-<option value="A-">A-</option>
-<option value="B+">B+</option>
-<option value="B-">B-</option>
-<option value="AB+">AB+</option>
-<option value="AB-">AB-</option>
-<option value="O+">O+</option>
-<option value="O-">O-</option>
-</select>
+        <button onclick="filtrar()">Filtrar</button>
+    </div>
 
-<button onclick="filtrar()">Filtrar</button>
+    <div id="listaPersonas">
+        <div class="persona" data-ciudad="Tijuana" data-edad="24" data-sexo="Masculino" data-sangre="O+">
+            <strong>Nombre:</strong> María Torres<br>
+            Edad: 24<br>
+            Ciudad: Tijuana<br>
+            Sexo: Masculino<br>
+            Tipo de Sangre: O+
+        </div>
 
-</div>
+        <div class="persona" data-ciudad="Tijuana" data-edad="22" data-sexo="Femenino" data-sangre="A+">
+            <strong>Nombre:</strong> Angel Torres<br>
+            Edad: 22<br>
+            Ciudad: Tijuana<br>
+            Sexo: Femenino<br>
+            Tipo de Sangre: A+
+        </div>
 
-<div id="listaPersonas">
+        <div class="persona" data-ciudad="Tijuana" data-edad="21" data-sexo="Masculino" data-sangre="B+">
+            <strong>Nombre:</strong> Stefano Torres<br>
+            Edad: 21<br>
+            Ciudad: Tijuana<br>
+            Sexo: Masculino<br>
+            Tipo de Sangre: B+
+        </div>
 
-<div class="persona" data-ciudad="Tijuana" data-edad="24" data-sexo="Masculino" data-sangre="O+">
-<strong>Nombre:</strong> María Torres<br>
-Edad: 24<br>
-Ciudad: Tijuana<br>
-Sexo: Masculino<br>
-Tipo de Sangre: O+
-</div>
+        <div class="persona" data-ciudad="Tijuana" data-edad="19" data-sexo="Femenino" data-sangre="O-">
+            <strong>Nombre:</strong> Yosmar Torres<br>
+            Edad: 19<br>
+            Ciudad: Tijuana<br>
+            Sexo: Femenino<br>
+            Tipo de Sangre: O-
+        </div>
 
-<div class="persona" data-ciudad="Tijuana" data-edad="22" data-sexo="Femenino" data-sangre="A+">
-<strong>Nombre:</strong> Angel Torres<br>
-Edad: 22<br>
-Ciudad: Tijuana<br>
-Sexo: Femenino<br>
-Tipo de Sangre: A+
-</div>
+        <div class="persona" data-ciudad="Mexicali" data-edad="30" data-sexo="Masculino" data-sangre="AB+">
+            <strong>Nombre:</strong> Carlos Ramírez<br>
+            Edad: 30<br>
+            Ciudad: Mexicali<br>
+            Sexo: Masculino<br>
+            Tipo de Sangre: AB+
+        </div>
 
-<div class="persona" data-ciudad="Tijuana" data-edad="21" data-sexo="Masculino" data-sangre="B+">
-<strong>Nombre:</strong> Stefano Torres<br>
-Edad: 21<br>
-Ciudad: Tijuana<br>
-Sexo: Masculino<br>
-Tipo de Sangre: B+
-</div>
+        <div class="persona" data-ciudad="Ensenada" data-edad="27" data-sexo="Femenino" data-sangre="A-">
+            <strong>Nombre:</strong> Laura Martínez<br>
+            Edad: 27<br>
+            Ciudad: Ensenada<br>
+            Sexo: Femenino<br>
+            Tipo de Sangre: A-
+        </div>
+    </div>
 
-<div class="persona" data-ciudad="Tijuana" data-edad="19" data-sexo="Femenino" data-sangre="O-">
-<strong>Nombre:</strong> Yosmar Torres<br>
-Edad: 19<br>
-Ciudad: Tijuana<br>
-Sexo: Femenino<br>
-Tipo de Sangre: O-
-</div>
-
-<div class="persona" data-ciudad="Mexicali" data-edad="30" data-sexo="Masculino" data-sangre="AB+">
-<strong>Nombre:</strong> Carlos Ramírez<br>
-Edad: 30<br>
-Ciudad: Mexicali<br>
-Sexo: Masculino<br>
-Tipo de Sangre: AB+
-</div>
-
-<div class="persona" data-ciudad="Ensenada" data-edad="27" data-sexo="Femenino" data-sangre="A-">
-<strong>Nombre:</strong> Laura Martínez<br>
-Edad: 27<br>
-Ciudad: Ensenada<br>
-Sexo: Femenino<br>
-Tipo de Sangre: A-
-</div>
-
-</div>
-
-<script>
-
-function filtrar(){
-
-let ciudad = document.getElementById("filtroCiudad").value;
-let edad = document.getElementById("filtroEdad").value;
-let sexo = document.getElementById("filtroSexo").value;
-let sangre = document.getElementById("filtroSangre").value;
-
-let personas = document.querySelectorAll(".persona");
-
-personas.forEach(p => {
-
-let pCiudad = p.dataset.ciudad;
-let pEdad = parseInt(p.dataset.edad);
-let pSexo = p.dataset.sexo;
-let pSangre = p.dataset.sangre;
-
-let mostrar = true;
-
-if(ciudad !== "todos" && ciudad !== pCiudad){
-mostrar = false;
-}
-
-if(sexo !== "todos" && sexo !== pSexo){
-mostrar = false;
-}
-
-if(sangre !== "todos" && sangre !== pSangre){
-mostrar = false;
-}
-
-if(edad !== "todos"){
-
-if(edad === "18-25" && (pEdad < 18 || pEdad > 25)) mostrar = false;
-if(edad === "26-35" && (pEdad < 26 || pEdad > 35)) mostrar = false;
-if(edad === "36-50" && (pEdad < 36 || pEdad > 50)) mostrar = false;
-
-}
-
-p.classList.toggle("oculto", !mostrar);
-
-});
-
-}
-
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
