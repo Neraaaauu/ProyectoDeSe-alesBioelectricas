@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.filtros {
+    background: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+select {
+    margin-right: 20px;
+    padding: 5px;
+}
+
+.persona {
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border-left: 5px solid #3498db;
+    transition: transform 0.2s;
+}
+
+.oculto {
+    display: none;
+}
