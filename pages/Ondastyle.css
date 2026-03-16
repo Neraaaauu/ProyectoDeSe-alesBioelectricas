@@ -1,0 +1,15 @@
+canvas{
+    background:#000;
+    border:2px solid #000000;
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+button{
+    margin-top:10px;
+    padding:8px 15px;
+}
+
+.seccionInfe{
+    margin-left: 50px;
+}
