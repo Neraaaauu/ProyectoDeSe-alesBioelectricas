@@ -1,1 +1,300 @@
+/* --- VARIABLES Y RESET --- */
+:root {
+    --primary: #1a4a8a; /* Azul principal que pediste */
+    --primary-dark: #1B4965; /* Azul oscuro */
+    --accent: #4d91ff;
+    --text-light: #ffffff;
+    --text-dark: #1a202c;
+    --text-muted: #4a5568;
+    --bg-light: #f7fafc;
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* --- NAVEGACIÓN (GLASSMORPHISM) --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(27, 73, 101, 0.85); /* Azul oscuro transparente */
+    backdrop-filter: blur(12px); /* Efecto de cristal */
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-text {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo-badge {
+    background: var(--accent);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    margin-left: 2rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+}
+
+.btn-outline {
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 8px 20px;
+    border-radius: 50px;
+}
+
+.btn-outline:hover {
+    background: white;
+    color: var(--primary-dark) !important;
+}
+
+/* --- HERO SECTION (ESTILO NATGEO) --- */
+.hero-section {
+    position: relative;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-image: url('https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=2000&auto=format&fit=crop'); /* Imagen médica abstracta */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Efecto parallax suave */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(27, 73, 101, 0.9) 0%, rgba(26, 74, 138, 0.6) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 0 20px;
+    color: var(--text-light);
+    animation: fadeUp 1s ease;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+/* Botones Hero */
+.hero-actions { display: flex; gap: 15px; justify-content: center; }
+
+.btn-primary, .btn-glass {
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 10px 20px rgba(77, 145, 255, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(77, 145, 255, 0.4);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.btn-glass:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-3px); }
+
+/* --- SECCIÓN ABOUT --- */
+.about-section {
+    padding: 6rem 2rem;
+    background: white;
+}
+
+.about-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.eyebrow {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.about-image-card {
+    height: 400px;
+    border-radius: var(--radius);
+    background-image: url('https://images.unsplash.com/photo-1576091160550-2173ff9e5ee5?q=80&w=800&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 20px 40px rgba(27, 73, 101, 0.15);
+}
+
+/* --- SECCIÓN DE TARJETAS (FEATURES) --- */
+.features-section {
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.features-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.features-header h2 {
+    font-size: 2.5rem;
+    color: var(--primary-dark);
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+/* El truco para que se vea rico en contenido: imágenes de fondo en las tarjetas */
+.feature-card {
+    position: relative;
+    height: 350px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: var(--transition);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(26, 74, 138, 0.2);
+}
+
+/* Fondos específicos por tarjeta */
+.card-ecg { background: url('https://images.unsplash.com/photo-1530497610245-94d3c16cda28?q=80&w=600&auto=format&fit=crop') center/cover; }
+.card-protocol { background: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop') center/cover; }
+.card-team { background: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=600&auto=format&fit=crop') center/cover; }
+.card-contact { background: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop') center/cover; }
+
+.card-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 30px 20px;
+    background: linear-gradient(to top, rgba(27, 73, 101, 1) 0%, rgba(27, 73, 101, 0.8) 50%, transparent 100%);
+    color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: var(--transition);
+}
+
+.feature-card:hover .card-content {
+    background: linear-gradient(to top, rgba(27, 73, 101, 1) 0%, rgba(27, 73, 101, 0.9) 70%, rgba(27, 73, 101, 0.4) 100%);
+}
+
+.card-content h3 { font-size: 1.5rem; margin-bottom: 10px; }
+.card-content p { font-size: 0.95rem; opacity: 0.9; margin-bottom: 15px; }
+
+.card-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.card-link:hover { color: white; }
+
+/* --- FOOTER --- */
+.site-footer {
+    background-color: var(--primary-dark);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 0.9rem;
+}
+
+/* Animación inicial */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVIDAD (MÓVILES) --- */
+@media (max-width: 768px) {
+    .about-container { grid-template-columns: 1fr; }
+    .hero-content h1 { font-size: 2.5rem; }
+    .nav-links { display: none; /* Aquí podrías agregar un menú hamburguesa después */ }
+}
