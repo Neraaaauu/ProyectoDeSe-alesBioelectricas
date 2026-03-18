@@ -1,23 +1,33 @@
 /* --- VARIABLES GLOBALES --- */
 :root {
-    --primary: #0d699e;
-    --primary-dark: #084a70;
-    --accent: #4d91ff;
+    /* Colores basados en la imagen */
+    --primary: #15658f; /* Azul oscuro del botón */
+    --primary-dark: #0f4a6b;
+    --accent: #e2eff5; /* Azul muy clarito para botones secundarios */
     --success: #207a57;
     --danger: #c63f3f;
-    --bg-gradient: linear-gradient(135deg, #f7f2e9 0%, #e7efe7 100%);
-    --panel-bg: rgba(255, 255, 255, 0.85);
-    --text-main: #18211e;
-    --text-muted: #5d6964;
-    --border: rgba(31, 107, 174, 0.2);
-    --shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-    --radius: 20px;
+    
+    /* Degradado de fondo idéntico al de tu imagen (cálido a menta) */
+    --bg-gradient: linear-gradient(135deg, #fcead9 0%, #e2eeea 100%);
+    
+    /* Transparencia (Glassmorphism) */
+    --panel-bg: rgba(255, 255, 255, 0.65); /* Más transparente */
+    --panel-border: rgba(255, 255, 255, 0.8); /* Brillo interior */
+    --border: rgba(21, 101, 143, 0.15); /* Borde azul muy suave */
+    
+    /* Sombras más modernas */
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.1);
+    
+    /* Bordes mucho más redondeados */
+    --radius: 24px; 
 }
 
 /* --- RESET Y BASE --- */
 * {
     box-sizing: border-box;
-    transition: all 0.3s ease;
+    /* Transición general suave, pero usamos bezier para que sea más natural */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 body {
@@ -37,12 +47,19 @@ body {
 
 .card {
     background: var(--panel-bg);
-    backdrop-filter: blur(12px);
+    /* Efecto de desenfoque del fondo (CRISTAL) */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    /* Borde exterior e interior para dar volumen */
     border: 1px solid var(--border);
+    box-shadow: var(--shadow), inset 0 0 0 1px var(--panel-border);
     border-radius: var(--radius);
-    padding: 1.5rem;
-    box-shadow: var(--shadow);
+    padding: 2rem;
     margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-hover), inset 0 0 0 1px var(--panel-border);
 }
 
 /* --- TIPOGRAFÍA --- */
@@ -56,32 +73,37 @@ h1, h2, h3 {
     letter-spacing: 1.5px;
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--accent);
+    color: var(--primary);
 }
 
 /* --- FORMULARIOS --- */
 input, select, textarea {
     width: 100%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid rgba(0,0,0,0.1);
-    background: white;
-    font-size: 1rem;
-    margin-top: 5px;
+    padding: 14px 20px;
+    border-radius: 16px; /* Más redondeados */
+    border: 1px solid rgba(0,0,0,0.05);
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    margin-top: 8px;
+    color: #333;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 }
 
-input:focus {
+input:focus, select:focus {
     outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px rgba(77, 145, 255, 0.1);
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(21, 101, 143, 0.15);
+    transform: translateY(-1px); /* Pequeño salto al enfocar */
 }
 
 /* --- BOTONES --- */
 .btn {
-    padding: 12px 24px;
-    border-radius: 12px;
+    padding: 12px 28px;
+    border-radius: 50px; /* Estilo "píldora" como en la imagen */
     border: none;
     font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -91,16 +113,26 @@ input:focus {
 .btn-primary {
     background: var(--primary);
     color: white;
+    box-shadow: 0 4px 12px rgba(21, 101, 143, 0.2);
 }
 
+/* Efecto ZOOM y cambio de color en hover */
 .btn-primary:hover {
     background: var(--primary-dark);
-    transform: translateY(-2px);
+    transform: scale(1.05) translateY(-3px); /* Zoom in + elevar */
+    box-shadow: 0 8px 20px rgba(21, 101, 143, 0.35);
 }
 
+/* Botón secundario (como el de "Limpiar filtros" o "Cerrar sesión") */
 .btn-ghost {
-    background: rgba(13, 105, 158, 0.1);
-    color: var(--primary);
+    background: var(--accent);
+    color: var(--primary-dark);
+}
+
+.btn-ghost:hover {
+    background: #d0e3ee;
+    transform: scale(1.05) translateY(-3px); /* Zoom in + elevar */
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 
 /* --- ESTILOS ESPECÍFICOS PARA SEÑALES --- */
@@ -108,36 +140,53 @@ canvas {
     width: 100% !important;
     height: auto !important;
     background: #000;
-    border-radius: 12px;
+    border-radius: 16px;
     border: 3px solid #333;
 }
 
 .monitor-frame {
     background: #111;
     padding: 20px;
-    border-radius: 15px;
+    border-radius: var(--radius);
     border: 5px solid #444;
 }
 
 /* --- GRID DE DATOS --- */
 .data-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
 }
 
+/* Cajas de estadísticas (como las de "6 Personas", "3 Ciudades") */
 .stat-box {
-    background: white;
-    padding: 1rem;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 1.5rem;
+    border-radius: 20px;
     text-align: center;
+    border: 1px solid rgba(0,0,0,0.03);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.stat-box:hover {
+    background: #ffffff;
+    transform: scale(1.04); /* Efecto zoom en las cajas de stats también */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
 
 .stat-value {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--primary);
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1a202c;
     display: block;
+    margin-bottom: 5px;
+}
+
+/* Caja de estadística destacada (como la azul claro de "6 Visibles") */
+.stat-box.highlight {
+    background: #aab5d8;
+    color: #1a202c;
+    border: none;
 }
 
 /* --- UTILIDADES --- */
