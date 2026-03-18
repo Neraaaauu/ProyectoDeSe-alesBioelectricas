@@ -60,7 +60,6 @@
             box-shadow: 0 12px 40px rgba(0,0,0,0.08);
         }
 
-        /* Contenedor para que la gráfica no desaparezca */
         .chart-container {
             position: relative;
             width: 100%;
@@ -79,7 +78,6 @@
             align-items: center;
         }
 
-        /* BOTÓN CON ZOOM Y COLOR */
         button#resetBtn {
             padding: 14px 30px;
             border-radius: 50px;
@@ -94,11 +92,10 @@
 
         button#resetBtn:hover {
             background: var(--primary-dark);
-            transform: scale(1.1) translateY(-3px); /* ZOOM solicitado */
+            transform: scale(1.1) translateY(-3px); 
             box-shadow: 0 8px 25px rgba(21, 101, 143, 0.4);
         }
 
-        /* Grid de Checkboxes */
         #derivaciones {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -178,7 +175,7 @@
     </div>
 
     <script>
-        // Lógica de la onda (Integrada para que no falle)
+        
         const Patron = [0, 0.02, 0.04, 0.02, 0, -0.03, -0.05, 0.1, 1, -0.3, 0.05, 0.08, 0.05, 0.02, 0];
         let InfoOnda = [];
         while(InfoOnda.length < 1000) { InfoOnda = InfoOnda.concat(Patron); }
@@ -194,7 +191,7 @@
                 datasets: [{
                     label: 'Señal ECG',
                     data: InfoOnda,
-                    borderColor: '#15658f', // CORREGIDO: Antes era blanco y no se veía
+                    borderColor: '#15658f',
                     borderWidth: 2,
                     tension: 0.2,
                     pointRadius: 0,
