@@ -8,59 +8,52 @@
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
-
     </head>
     <body>
+        <div class="app-container">
+            
+            <h2>Electrocardiograma</h2>
 
-        <h2>Electrocardiograma</h2>
+            <div class="card">
+                <canvas id="OndaChart" width="900" height="250"></canvas>
+            </div>
 
-        <canvas id="OndaChart" width="900" height="250"></canvas>
-        <br>
+            <br>
 
-        <script src="./Onda.js"></script>
-        <div id="seccionInfe">
-            <button onclick="resetZoom()">Restablecer Zoom</button>
-            <section id="derivaciones">
-                <input type="checkbox" id="V1">
-                <label for="V1">Derivación V1</label>
-                <input type="checkbox" id="V4">
-                <label for="V4">Derivación V4</label>
-                <input type="checkbox" id="D1">
-                <label for="D1">Derivación DI</label>
-                <input type="checkbox" id="aVL">
-                <label for="aVL">Derivación aVL</label>
-                <br>
-                <input type="checkbox" id="V2">
-                <label for="V2">Derivación V2</label>              
-                <input type="checkbox" id="V5">
-                <label for="V5">Derivación V5</label>                
-                <input type="checkbox" id="D2">
-                <label for="D2">Derivación DII</label>             
-                <input type="checkbox" id="aVR">
-                <label for="aVR">Derivación aVR</label>
-                <br>
-                <input type="checkbox" id="V3">
-                <label for="V3">Derivación V3</label>
-                <input type="checkbox" id="V6">
-                <label for="V6">Derivación V6</label>            
-                <input type="checkbox" id="D3">
-                <label for="D3">Derivación DIII</label>              
-                <input type="checkbox" id="aVF">
-                <label for="aVF">Derivación aVF</label> 
-            </section>
-            <section id="InfoGen">
-                <br>
-                <label id="nombre">Nombre:</label>
-                <br>
-                <label id="edad">Edad:</label>
-                <br>
-                <label id="sexo">Sexo:</label>
-                <br>
-                <label id="id">ID:</label>
-                <br>
-                <label id="fecha">Fecha de registro:</label>
-                <br>  
-            </section>  
-        </div>
+            <div class="card">
+                <div id="seccionInfe">
+                    <button class="btn btn-primary" onclick="resetZoom()">Restablecer Zoom</button>
+                    
+                    <br><br>
+
+                    <section id="derivaciones">
+                        <input type="checkbox" id="V1"> <label for="V1">Derivación V1</label>
+                        <input type="checkbox" id="V4"> <label for="V4">Derivación V4</label>
+                        <input type="checkbox" id="D1"> <label for="D1">Derivación DI</label>
+                        <input type="checkbox" id="aVL"> <label for="aVL">Derivación aVL</label>
+                        <br>
+                        <input type="checkbox" id="V2"> <label for="V2">Derivación V2</label>        
+                        <input type="checkbox" id="V5"> <label for="V5">Derivación V5</label>                
+                        <input type="checkbox" id="D2"> <label for="D2">Derivación DII</label>             
+                        <input type="checkbox" id="aVR"> <label for="aVR">Derivación aVR</label>
+                        <br>
+                        <input type="checkbox" id="V3"> <label for="V3">Derivación V3</label>
+                        <input type="checkbox" id="V6"> <label for="V6">Derivación V6</label>            
+                        <input type="checkbox" id="D3"> <label for="D3">Derivación DIII</label>              
+                        <input type="checkbox" id="aVF"> <label for="aVF">Derivación aVF</label> 
+                    </section>
+                    
+                    <section id="InfoGen">
+                        <br>
+                        <label id="nombre"><strong>Nombre:</strong></label> <br>
+                        <label id="edad"><strong>Edad:</strong></label> <br>
+                        <label id="sexo"><strong>Sexo:</strong></label> <br>
+                        <label id="id"><strong>ID:</strong></label> <br>
+                        <label id="fecha"><strong>Fecha de registro:</strong></label> <br>  
+                    </section>  
+                </div>
+            </div>
+
+        </div> <script src="./Onda.js"></script>
     </body>
 </html>
