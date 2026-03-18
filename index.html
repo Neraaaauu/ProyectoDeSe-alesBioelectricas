@@ -2,93 +2,97 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BioSigLab - UABC</title>
-    <link rel="stylesheet" href="assets/css/global-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/basestyle.css">
 </head>
-<body bgcolor="#f0f0f0" style="margin: 0;">
+<body>
 
-    <table width="100%" bgcolor="#1B4965" cellpadding="15">
-        <tr>
-            <td align="right">
-            <a href="" style="color:white;" >Descarga</a> 
-            <a href="pages/adminlogin.html" style="color:white;">Administrador</a> 
-            <a href="protocolo.html" style="color:white;">Protocolo</a> 
-            <a href="equipo.html" style="color:white;">Equipo</a> 
-            <a href="#" style="color:white;">Contacto</a>
-            </td>
-        </tr>
-    </table>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo-text">BioSigLab</span>
+            <span class="logo-badge">UABC</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Descarga</a>
+            <a href="pages/adminlogin.html">Administrador</a>
+            <a href="protocolo.html">Protocolo</a>
+            <a href="equipo.html">Equipo</a>
+            <a href="#" class="btn-outline">Contacto</a>
+        </div>
+    </nav>
 
-    <table width="100%" bgcolor="#1a4a8a" cellpadding="50">
-        <tr>
-            <td align="center">
-            <h1><font color="white">BioSigLab - UABC</font></h1>
-            <p><font color="white">Base de datos de señales ECG de poblacion del noroeste de Mexico</font></p>
-            <a href="#" style="text-decoration:none;"><font color="white"><b>Explorar señales</b></font></a>
-        </td>
-    </tr>
-    </table>
+    <header class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Base de datos de señales ECG del Noroeste de México</h1>
+            <p>Representando a la población latina para mejorar diagnósticos y modelos de inteligencia artificial en salud cardiovascular.</p>
+            <div class="hero-actions">
+                <a href="#" class="btn-primary">Explorar Señales</a>
+                <a href="#about" class="btn-glass">Saber más</a>
+            </div>
+        </div>
+    </header>
 
-    <br>
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-text">
+                <p class="eyebrow">Sobre el proyecto</p>
+                <h2>¿Qué es BioSigLab?</h2>
+                <p>BioSigLab es un proyecto de investigación de la <strong>Universidad Autónoma de Baja California (UABC)</strong>. Su objetivo es construir una base de datos de señales electrocardiográficas (ECG) de pacientes del noroeste de México.</p>
+                <p>La mayoría de las bases de datos de ECG que existen fueron creadas con población de Estados Unidos, Europa o Asia. BioSigLab busca llenar este vacío, lo cual es vital para la precisión de las nuevas tecnologías en nuestra región.</p>
+                <p>Los datos son de <strong>acceso libre</strong> para investigadores, estudiantes y docentes.</p>
+            </div>
+            <div class="about-image-card">
+                </div>
+        </div>
+    </section>
 
-    <table width="800" align="center" bgcolor="white" cellpadding="20">
-        <tr>
-            <td>
-            <h2><font color="#1a4a8a">¿Que es BioSigLab?</font></h2>
-            <p>BioSigLab es un proyecto de investigacion de la Universidad Autonoma de Baja California (UABC).
-            Su objetivo es construir una base de datos de señales electrocardiograficas (ECG) de pacientes
-            del noroeste de mexico.</p>
-            <p>La mayoria de las bases de datos de ECG que existen fueron creadas con poblacion de Estados Unidos,
-            Europa o Asia. BioSigLab busca representar a la poblacion latina de esta region, lo cual es importante
-            para mejorar los diagnosticos y los modelos de inteligencia artificial en salud cardiovascular.</p>
-            <p>Los datos son de acceso libre para investigadores, estudiantes y docentes que quieran usarlos
-            para sus proyectos o estudios.</p>
-            </td>
-        </tr>
-    </table>
+    <section class="features-section">
+        <div class="features-header">
+            <h2>Recursos de la Plataforma</h2>
+            <p>Accede a nuestra documentación, herramientas y equipo de trabajo.</p>
+        </div>
 
-    <br>
+        <div class="cards-grid">
+            <article class="feature-card card-ecg">
+                <div class="card-content">
+                    <h3>Señales ECG</h3>
+                    <p>Registros de 12 derivaciones disponibles para visualizar y descargar en formato XML.</p>
+                    <a href="biosignales.com" class="card-link">Ver señales →</a>
+                </div>
+            </article>
 
-    <table width="800" align="center" cellpadding="10">
-        <tr>
+            <article class="feature-card card-protocol">
+                <div class="card-content">
+                    <h3>Protocolo</h3>
+                    <p>Consulta cómo se recolectaron los datos y los criterios clínicos seguidos.</p>
+                    <a href="protocolo.com" class="card-link">Ver protocolo →</a>
+                </div>
+            </article>
 
-        <td width="25%" bgcolor="white" valign="top" align="center">
-            <h3><font color="#1a4a8a">Señales ECG</font></h3>
-            <p>Registros de 12 derivaciones disponibles para visualizar y descargar.</p>
-            <a href="biosignales.com"><b>Ver señales →</b></a>
-        </td>
+            <article class="feature-card card-team">
+                <div class="card-content">
+                    <h3>Equipo</h3>
+                    <p>Conoce a los investigadores y desarrolladores detrás de este proyecto de la UABC.</p>
+                    <a href="equipo.com" class="card-link">Ver equipo →</a>
+                </div>
+            </article>
 
-        <td width="25%" bgcolor="white" valign="top" align="center">
-            <h3><font color="#1a4a8a">Protocolo</font></h3>
-            <p>Consulta como se recolectaron los datos y que criterios se siguieron.</p>
-            <a href="protocolo.com"><b>Ver protocolo →</b></a>
-        </td>
+            <article class="feature-card card-contact">
+                <div class="card-content">
+                    <h3>Contacto</h3>
+                    <p>¿Tienes preguntas, quieres aportar archivos o colaborar? Escríbenos.</p>
+                    <a href="#" class="card-link">Ir a contacto →</a>
+                </div>
+            </article>
+        </div>
+    </section>
 
-        <td width="25%" bgcolor="white" valign="top" align="center">
-            <h3><font color="#1a4a8a">Equipo</font></h3>
-            <p>Conoce a los investigadores y desarrolladores del proyecto.</p>
-            <a href="equipo.com"><b>Ver equipo →</b></a>
-        </td>
-
-        <td width="25%" bgcolor="white" valign="top" align="center">
-            <h3><font color="#1a4a8a">Contacto</font></h3>
-            <p>¿Tienes preguntas o quieres colaborar? Escribenos.</p>
-            <!-- TODO: reemplazar href="#" con la página de contacto -->
-            <a href="#"><b>Ir a contacto →</b></a>
-        </td>
-
-    </tr>
-    </table>
-
-    <br>
-
-    <table width="100%" bgcolor="#1a4a8a" cellpadding="15">
-    <tr>
-        <td align="center">
-        <font color="white">© 2026 BioSigLab - Universidad Autonoma de Baja California</font>
-        </td>
-    </tr>
-    </table>
+    <footer class="site-footer">
+        <p>© 2026 BioSigLab - Universidad Autónoma de Baja California. Todos los derechos reservados.</p>
+    </footer>
 
 </body>
 </html>
