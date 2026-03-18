@@ -1,1 +1,163 @@
+canvas{
+    background:#000;
+    border:2px solid #000000;
+    margin-right: 50px;
+    margin-left: 50px;
+}
 
+button{
+    margin-top:10px;
+    padding:8px 15px;
+}
+
+.seccionInfe{
+    margin-left: 50px;
+}
+:root {
+    --bg: #447ac1;
+    --bg-deep: #0c5c95;
+    --panel: rgba(255, 255, 255, 0.85); /* Más transparencia para mejor efecto glass */
+    --panel-strong: #ffffff;
+    --text: #18211e;
+    --muted: #5d6964;
+    --line: rgba(24, 33, 30, 0.08); /* Línea más sutil */
+    --primary: #0d699e;
+    --primary-dark: #136296;
+    --accent: #4d91ff;
+    --danger: #c63f3f;
+    --success: #207a57;
+    --shadow: 0 20px 50px rgba(12, 92, 149, 0.12); /* Sombra con el tono del azul, no negra */
+}
+
+/* 1. RESET Y REFINAMIENTO TIPOGRÁFICO */
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Outfit", sans-serif;
+    color: var(--text);
+    /* Fondo más limpio, menos saturado en los bordes */
+    background: 
+        radial-gradient(circle at 0% 0%, rgba(255, 184, 77, 0.15), transparent 35%),
+        radial-gradient(circle at 100% 100%, rgba(12, 122, 92, 0.1), transparent 35%),
+        linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* 2. EL PANEL "GLASS" (EL CORAZÓN DEL DISEÑO) */
+.login-panel, .hero-card, .panel {
+    background: var(--panel);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Borde blanco sutil, no azul */
+    border-radius: 24px; /* Un poco menos exagerado para que se vea serio */
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* 3. INPUTS Y CAMPOS (Aquí es donde fallaba) */
+.field span {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    color: var(--primary); /* Color de marca en el label */
+    font-weight: 700;
+}
+
+.field input, .field select, .field textarea {
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px; /* Radios consistentes */
+    padding: 12px 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.field input:focus {
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(13, 105, 158, 0.1);
+    transform: translateY(-1px);
+}
+
+/* 4. BOTONES (Efecto Elevado) */
+.primary-button {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: white;
+    box-shadow: 0 4px 15px rgba(13, 105, 158, 0.2);
+    transition: all 0.3s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(13, 105, 158, 0.3);
+    filter: brightness(1.1);
+}
+
+/* 5. TARJETAS DE CONTENIDO (Stats, Personas, etc) */
+.persona, .file-card, .registry-card, .stat-box {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.persona:hover, .file-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transform: translateY(-3px);
+}
+
+/* 6. REFINAMIENTO DE LA COPIA (Login Side) */
+.login-copy {
+    padding: 60px;
+    background: 
+        linear-gradient(rgba(13, 105, 158, 0.85), rgba(19, 98, 150, 0.9)),
+        url("medico.jpeg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.login-copy h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* 7. GRILLAS Y LAYOUT */
+.stats-grid {
+    gap: 20px;
+}
+
+.stat-value {
+    color: var(--primary);
+    font-size: 1.8rem;
+}
+
+.blood-pill {
+    background: rgba(13, 105, 158, 0.08); /* Color más limpio */
+    border: 1px solid rgba(13, 105, 158, 0.1);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+/* 8. ANIMACIONES */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
