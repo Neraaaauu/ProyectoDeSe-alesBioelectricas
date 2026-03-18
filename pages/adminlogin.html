@@ -16,28 +16,21 @@
             <div class="login-panel">
                 <div class="login-copy">
                     <p class="eyebrow">Plataforma de señales bioeléctricas</p>
-                    <h1>Portal de acceso para administradores y usuarios visitantes</h1>
-                    <p>Los visitantes completan una encuesta breve para entrar al repositorio XML. El administrador puede revisar registros, contribuciones y descargas disponibles.</p>
+                    <h1>Portal de acceso exclusivo para administradores</h1>
+                    <p>Accede al panel de control central para gestionar la base de datos, revisar los registros clínicos y administrar los archivos XML compartidos en la plataforma.</p>
                     <div class="login-hint">
-                        <span>Encuesta de usuarios</span>
-                        <span>Carga de XML</span>
+                        <span>Gestión de registros</span>
+                        <span>Revisión de XML</span>
                         <span>Panel administrativo</span>
                     </div>
                 </div>
 
-                <div class="access-card">
-                    <div class="access-option">
-                        <p class="eyebrow">Usuarios</p>
-                        <h2>Ingresar como visitante</h2>
-                        <p>Completa tus datos, explica el motivo de tu visita y accede al área de archivos XML.</p>
-                        <button class="primary-button" type="button" onclick="window.location.href='usuario.html'">Entrar como usuario</button>
-                    </div>
-
+                <div class="access-card" style="grid-template-columns: 1fr; max-width: 400px;">
                     <div class="access-option">
                         <p class="eyebrow">Administrador</p>
                         <h2>Entrar al panel</h2>
-                        <p>Accede al control completo para revisar usuarios registrados y archivos compartidos.</p>
-                        <button class="ghost-button" type="button" onclick="mostrarVista('loginView')">Ir al login</button>
+                        <p>Accede con tus credenciales de seguridad para gestionar el sistema completo.</p>
+                        <button class="primary-button" type="button" onclick="mostrarVista('loginView')">Ir al login seguro</button>
                     </div>
                 </div>
             </div>
