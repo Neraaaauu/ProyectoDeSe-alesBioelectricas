@@ -77,7 +77,7 @@ body {
     gap: 20px;
     background:
         linear-gradient(rgba(59, 132, 184, 0.72), rgba(135, 181, 219, 0.72)),
-        url("assets/images/doctorimage.jpg");
+        url("../assets/images/doctorimage.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
