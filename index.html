@@ -1,6 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Bioelectricas</title>
@@ -13,107 +16,678 @@
     <main class="app-shell">
 
         <section id="homeView" class="home-view">
+
             <div class="login-panel">
+
                 <div class="login-copy">
+
                     <p class="eyebrow">Plataforma de senales bioelectricas</p>
+
                     <h1>Portal de acceso para administradores y usuarios visitantes</h1>
+
                     <p>Los visitantes completan una encuesta breve para entrar al repositorio XML. El administrador puede revisar registros, contribuciones y descargas disponibles.</p>
+
                     <div class="login-hint">
-                        <span>Encuesta de usuarios</span><span>Carga de XML</span><span>Panel administrativo</span>
+
+                        <span>Encuesta de usuarios</span>
+
+                        <span>Carga de XML</span>
+
+                        <span>Panel administrativo</span>
+
                     </div>
+
                 </div>
+
 
                 <div class="access-card">
-                    <div class="access-option">
-                        <p class="eyebrow">Usuarios</p>
-                        <h2>Ingresar como visitante</h2>
-                        <p>Completa tus datos, explica el motivo de tu visita y accede al area de archivos XML.</p>
-                        <button class="primary-button" type="button" onclick="mostrarVista('surveyView')">Entrar como usuario</button>
-                    </div>
 
                     <div class="access-option">
-                        <p class="eyebrow">Administrador</p>
-                        <h2>Entrar al panel</h2>
-                        <p>Accede al control completo para revisar usuarios registrados y archivos compartidos.</p>
-                        <button class="ghost-button" type="button" onclick="mostrarVista('loginView')">Ir al login</button>
+
+                        <p class="eyebrow">Usuarios</p>
+
+                        <h2>Ingresar como visitante</h2>
+
+                        <p>Completa tus datos, explica el motivo de tu visita y accede al area de archivos XML.</p>
+
+                        <button class="primary-button" type="button" onclick="mostrarVista('surveyView')">Entrar como usuario</button>
+
                     </div>
+
+
+                    <div class="access-option">
+
+                        <p class="eyebrow">Administrador</p>
+
+                        <h2>Entrar al panel</h2>
+
+                        <p>Accede al control completo para revisar usuarios registrados y archivos compartidos.</p>
+
+                        <button class="ghost-button" type="button" onclick="mostrarVista('loginView')">Ir al login</button>
+
+                    </div>
+
                 </div>
+
             </div>
+
         </section>
+
 
         <section id="surveyView" class="survey-view oculto">
+
             <div class="panel survey-panel">
+
                 <div class="panel-head">
+
                     <div>
+
                         <p class="eyebrow">Encuesta de acceso</p>
+
                         <h2>Registro de usuario visitante</h2>
+
                     </div>
+
                     <button class="ghost-button" type="button" onclick="mostrarVista('homeView')">Volver</button>
+
                 </div>
+
 
                 <form class="survey-form" onsubmit="registrarUsuario(event)">
+
                     <label class="field">
+
                         <span>Nombre completo</span>
+
                         <input id="visitorNombre" type="text" placeholder="Ingresa tu nombre completo" required>
+
                     </label>
 
+
                     <label class="field">
+
                         <span>Correo electronico</span>
+
                         <input id="visitorCorreo" type="email" placeholder="nombre@correo.com" required>
+
                     </label>
 
+
                     <label class="field">
+
                         <span>Edad</span>
+
                         <input id="visitorEdad" type="number" min="16" max="100" placeholder="Ejemplo: 22" required>
+
                     </label>
 
+
                     <label class="field">
+
                         <span>Universidad</span>
+
                         <input id="visitorUniversidad" type="text" placeholder="Nombre de tu universidad" required>
+
                     </label>
+
 
                     <label class="field field-full">
+
                         <span>Motivo de ingreso al sitio</span>
+
                         <textarea id="visitorMotivo" rows="4" placeholder="Describe por que necesitas consultar o aportar archivos XML" required></textarea>
+
                     </label>
 
+
                     <button class="primary-button" type="submit">Enviar encuesta y continuar</button>
+
                     <p id="surveyMensaje" class="form-message success-message"></p>
+
                 </form>
+
             </div>
+
         </section>
 
+
         <section id="userView" class="user-view oculto">
+
             <header class="admin-header">
+
                 <div>
+
                     <p class="eyebrow">Area de usuario</p>
+
                     <h2>Repositorio colaborativo de archivos XML</h2>
+
                     <p id="userWelcome" class="hero-text"></p>
+
                 </div>
+
                 <div class="header-actions">
+
                     <button class="ghost-button" type="button" onclick="mostrarVista('homeView')">Salir</button>
+
                 </div>
+
             </header>
 
+
             <section class="hero-card">
+
                 <div>
+
                     <p class="card-label">Acceso habilitado</p>
+
                     <h3>Consulta, descarga y aporta archivos XML</h3>
+
                     <p class="hero-text">Cada aporte queda registrado para que el administrador pueda revisarlo dentro del panel principal.</p>
+
                 </div>
 
+
                 <div class="stats-grid">
+
                     <article class="stat-box">
+
                         <span id="xmlDisponibles" class="stat-value">0</span>
+
                         <span class="stat-label">XML disponibles</span>
+
                     </article>
+
                     <article class="stat-box">
+
                         <span id="xmlUsuarios" class="stat-value">0</span>
+
                         <span class="stat-label">Aportes de usuarios</span>
+
                     </article>
+
                     <article class="stat-box accent">
+
                         <span id="ultimoRegistro" class="stat-value">-</span>
+
                         <span class="stat-label">Ultimo registro</span>
+
                     </article>
+
                 </div>
+
             </section>
+
+
+            <section class="panel">
+
+                <div class="panel-head">
+
+                    <div>
+
+                        <p class="eyebrow">Subir archivo</p>
+
+                        <h3>Aporta un XML al repositorio</h3>
+
+                    </div>
+
+                </div>
+
+
+                <form class="upload-form" onsubmit="subirArchivoUsuario(event)">
+
+                    <label class="field field-full">
+
+                        <span>Selecciona un archivo XML</span>
+
+                        <input id="xmlFileInput" type="file" accept=".xml,text/xml,application/xml" required>
+
+                    </label>
+
+                    <button class="primary-button" type="submit">Subir archivo XML</button>
+
+                    <p id="uploadMensaje" class="form-message success-message"></p>
+
+                </form>
+
+            </section>
+
+
+            <section class="panel">
+
+                <div class="panel-head">
+
+                    <div>
+
+                        <p class="eyebrow">Repositorio XML</p>
+
+                        <h3>Archivos disponibles para consulta</h3>
+
+                    </div>
+
+                </div>
+
+
+                <div id="xmlList" class="file-grid"></div>
+
+            </section>
+
+        </section>
+
+
+        <section id="loginView" class="login-view oculto">
+
+            <div class="login-panel admin-login-panel">
+
+                <div class="login-copy">
+
+                    <p class="eyebrow">Acceso seguro</p>
+
+                    <h1>Ingreso al area del administrador</h1>
+
+                    <p>Utiliza las credenciales para revisar los registros de usuarios y los archivos XML cargados en la plataforma.</p>
+
+                </div>
+
+
+                <form class="login-form" onsubmit="iniciarSesion(event)">
+
+                    <label class="field">
+
+                        <span>Usuario</span>
+
+                        <input id="usuario" type="text" placeholder="Ingresa tu usuario" required>
+
+                    </label>
+
+
+                    <label class="field">
+
+                        <span>Contrasena</span>
+
+                        <input id="clave" type="password" placeholder="Ingresa tu contrasena" required>
+
+                    </label>
+
+
+                    <button class="primary-button" type="submit">Entrar al panel</button>
+
+                    <button class="ghost-button" type="button" onclick="mostrarVista('homeView')">Volver al inicio</button>
+
+                    <p id="loginMensaje" class="form-message"></p>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <section id="adminView" class="admin-view oculto">
+
+            <header class="admin-header">
+
+                <div>
+
+                    <p class="eyebrow">Administrador</p>
+
+                    <h2>Panel principal</h2>
+
+                </div>
+
+                <button class="ghost-button" type="button" onclick="cerrarSesion()">Cerrar sesion</button>
+
+            </header>
+
+
+            <section class="hero-card">
+
+                <div>
+
+                    <p class="card-label">Estado del sistema</p>
+
+                    <h3>Base de registros disponible</h3>
+
+                    <p class="hero-text">Consulta la informacion general de usuarios, filtra registros clinicos y revisa archivos XML aportados por visitantes.</p>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <article class="stat-box">
+
+                        <span id="totalPersonas" class="stat-value">0</span>
+
+                        <span class="stat-label">Personas</span>
+
+                    </article>
+
+                    <article class="stat-box">
+
+                        <span id="totalCiudades" class="stat-value">0</span>
+
+                        <span class="stat-label">Ciudades</span>
+
+                    </article>
+
+                    <article class="stat-box">
+
+                        <span id="totalTipos" class="stat-value">0</span>
+
+                        <span class="stat-label">Tipos</span>
+
+                    </article>
+
+                    <article class="stat-box accent">
+
+                        <span id="personasVisibles" class="stat-value">0</span>
+
+                        <span class="stat-label">Visibles</span>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <section class="panel">
+
+                <div class="panel-head">
+
+                    <div>
+
+                        <p class="eyebrow">Filtros</p>
+
+                        <h3>Busqueda avanzada</h3>
+
+                    </div>
+
+                    <button class="ghost-button" type="button" onclick="limpiarFiltros()">Limpiar filtros</button>
+
+                </div>
+
+
+                <div class="filtros">
+
+                    <label class="field">
+
+                        <span>Ciudad</span>
+
+                        <select id="filtroCiudad">
+
+                            <option value="todos">Todos</option>
+
+                            <option value="Tijuana">Tijuana</option>
+
+                            <option value="Mexicali">Mexicali</option>
+
+                            <option value="Ensenada">Ensenada</option>
+
+                        </select>
+
+                    </label>
+
+
+                    <label class="field">
+
+                        <span>Edad</span>
+
+                        <select id="filtroEdad">
+
+                            <option value="todos">Todos</option>
+
+                            <option value="18-25">18-25</option>
+
+                            <option value="26-35">26-35</option>
+
+                            <option value="36-50">36-50</option>
+
+                        </select>
+
+                    </label>
+
+
+                    <label class="field">
+
+                        <span>Sexo</span>
+
+                        <select id="filtroSexo">
+
+                            <option value="todos">Todos</option>
+
+                            <option value="Masculino">Masculino</option>
+
+                            <option value="Femenino">Femenino</option>
+
+                        </select>
+
+                    </label>
+
+
+                    <label class="field">
+
+                        <span>Tipo de sangre</span>
+
+                        <select id="filtroSangre">
+
+                            <option value="todos">Todos</option>
+
+                            <option value="A+">A+</option>
+
+                            <option value="A-">A-</option>
+
+                            <option value="B+">B+</option>
+
+                            <option value="B-">B-</option>
+
+                            <option value="AB+">AB+</option>
+
+                            <option value="AB-">AB-</option>
+
+                            <option value="O+">O+</option>
+
+                            <option value="O-">O-</option>
+
+                        </select>
+
+                    </label>
+
+
+                    <button class="primary-button" type="button" onclick="filtrar()">Aplicar filtros</button>
+
+                </div>
+
+            </section>
+
+
+            <section class="panel">
+
+                <div class="panel-head">
+
+                    <div>
+
+                        <p class="eyebrow">Resultados</p>
+
+                        <h3>Registros encontrados</h3>
+
+                    </div>
+
+                    <p id="mensajeResultado" class="result-note">Mostrando todos los registros.</p>
+
+                </div>
+
+
+                <div id="listaPersonas" class="people-grid">
+
+                    <article class="persona" data-ciudad="Tijuana" data-edad="24" data-sexo="Masculino" data-sangre="O+">
+
+                        <div class="persona-top">
+
+                            <h4>Maria Torres</h4>
+
+                            <span class="blood-pill">O+</span>
+
+                        </div>
+
+                        <p>Ciudad: Tijuana</p>
+
+                        <p>Edad: 24 anos</p>
+
+                        <p>Sexo: Masculino</p>
+
+                    </article>
+
+
+                    <article class="persona" data-ciudad="Tijuana" data-edad="22" data-sexo="Femenino" data-sangre="A+">
+
+                        <div class="persona-top">
+
+                            <h4>Angel Torres</h4>
+
+                            <span class="blood-pill">A+</span>
+
+                        </div>
+
+                        <p>Ciudad: Tijuana</p>
+
+                        <p>Edad: 22 anos</p>
+
+                        <p>Sexo: Femenino</p>
+
+                    </article>
+
+
+                    <article class="persona" data-ciudad="Tijuana" data-edad="21" data-sexo="Masculino" data-sangre="B+">
+
+                        <div class="persona-top">
+
+                            <h4>Stefano Torres</h4>
+
+                            <span class="blood-pill">B+</span>
+
+                        </div>
+
+                        <p>Ciudad: Tijuana</p>
+
+                        <p>Edad: 21 anos</p>
+
+                        <p>Sexo: Masculino</p>
+
+                    </article>
+
+
+                    <article class="persona" data-ciudad="Tijuana" data-edad="19" data-sexo="Femenino" data-sangre="O-">
+
+                        <div class="persona-top">
+
+                            <h4>Yosmar Torres</h4>
+
+                            <span class="blood-pill">O-</span>
+
+                        </div>
+
+                        <p>Ciudad: Tijuana</p>
+
+                        <p>Edad: 19 anos</p>
+
+                        <p>Sexo: Femenino</p>
+
+                    </article>
+
+
+                    <article class="persona" data-ciudad="Mexicali" data-edad="30" data-sexo="Masculino" data-sangre="AB+">
+
+                        <div class="persona-top">
+
+                            <h4>Carlos Ramirez</h4>
+
+                            <span class="blood-pill">AB+</span>
+
+                        </div>
+
+                        <p>Ciudad: Mexicali</p>
+
+                        <p>Edad: 30 anos</p>
+
+                        <p>Sexo: Masculino</p>
+
+                    </article>
+
+
+                    <article class="persona" data-ciudad="Ensenada" data-edad="27" data-sexo="Femenino" data-sangre="A-">
+
+                        <div class="persona-top">
+
+                            <h4>Laura Martinez</h4>
+
+                            <span class="blood-pill">A-</span>
+
+                        </div>
+
+                        <p>Ciudad: Ensenada</p>
+
+                        <p>Edad: 27 anos</p>
+
+                        <p>Sexo: Femenino</p>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <section class="panel">
+
+                <div class="panel-head">
+
+                    <div>
+
+                        <p class="eyebrow">Usuarios registrados</p>
+
+                        <h3>Encuestas enviadas por visitantes</h3>
+
+                    </div>
+
+                    <span id="userRegistryCount" class="result-note">0 registros</span>
+
+                </div>
+
+
+                <div id="userRegistry" class="registry-grid"></div>
+
+            </section>
+
+
+            <section class="panel">
+
+                <div class="panel-head">
+
+                    <div>
+
+                        <p class="eyebrow">Archivos XML</p>
+
+                        <h3>Archivos aportados por usuarios</h3>
+
+                    </div>
+
+                    <span id="adminXmlCount" class="result-note">0 archivos</span>
+
+                </div>
+
+
+                <div id="adminXmlList" class="file-grid"></div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html> 
