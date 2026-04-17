@@ -6,7 +6,8 @@ const CREDENCIALES = {
 const STORAGE_KEYS = {
     usuarios: "bioelectricas_usuarios",
     archivos: "bioelectricas_archivos_xml",
-    sesionUsuario: "bioelectricas_usuario_actual"
+    sesionUsuario: "bioelectricas_usuario_actual",
+    descargaPendiente: "bioelectricas_descarga_pendiente"
 };
 
 const XML_BASE = [
@@ -109,23 +110,24 @@ function registrarUsuario(event) {
     guardarUsuarios(usuarios);
     localStorage.setItem(STORAGE_KEYS.sesionUsuario, JSON.stringify(registro));
 
-    document.getElementById("surveyMensaje").textContent = "Registro completado. Acceso habilitado al repositorio XML.";
+    document.getElementById("surveyMensaje").textContent = "Registro completado. Ya puedes descargar archivos XML.";
     document.querySelector(".survey-form").reset();
 
     actualizarPanelUsuario();
     renderizarRegistrosAdmin();
     mostrarVista("userView");
+    procesarDescargaPendiente();
 }
 
 function restaurarSesionUsuario() {
     const sesion = localStorage.getItem(STORAGE_KEYS.sesionUsuario);
 
-    if (!sesion) {
-        actualizarPanelUsuario();
-        return;
+    if (sesion) {
+        procesarDescargaPendiente();
     }
 
     actualizarPanelUsuario();
+    mostrarVista("userView");
 }
 
 function actualizarPanelUsuario() {
@@ -134,31 +136,25 @@ function actualizarPanelUsuario() {
 
     if (bienvenida) {
         bienvenida.textContent = usuarioActual
-            ? `${usuarioActual.nombre}, ya puedes revisar los XML disponibles y compartir nuevos archivos.`
-            : "Completa la encuesta para habilitar tu acceso al repositorio.";
+            ? `${usuarioActual.nombre}, completa la encuesta cada vez que quieras descargar un archivo XML.`
+            : "Puedes revisar todos los XML ahora mismo. Para descargarlos, primero completa la encuesta de acceso.";
     }
 
     const archivos = obtenerArchivos();
-    const archivosUsuarios = archivos.filter((archivo) => archivo.autor !== "Sistema");
+    const archivosCargados = archivos.filter((archivo) => archivo.autor !== "Sistema");
     const ultimoRegistro = usuarioActual ? usuarioActual.nombre.split(" ")[0] : "-";
 
     document.getElementById("xmlDisponibles").textContent = archivos.length;
-    document.getElementById("xmlUsuarios").textContent = archivosUsuarios.length;
+    document.getElementById("xmlUsuarios").textContent = archivosCargados.length;
     document.getElementById("ultimoRegistro").textContent = ultimoRegistro;
 }
 
-function subirArchivoUsuario(event) {
+function subirArchivoAdmin(event) {
     event.preventDefault();
 
-    const input = document.getElementById("xmlFileInput");
+    const input = document.getElementById("adminXmlFileInput");
     const archivo = input.files[0];
-    const mensaje = document.getElementById("uploadMensaje");
-    const usuarioActual = obtenerSesionUsuario();
-
-    if (!usuarioActual) {
-        mensaje.textContent = "Primero completa la encuesta para poder subir archivos.";
-        return;
-    }
+    const mensaje = document.getElementById("adminUploadMensaje");
 
     if (!archivo) {
         mensaje.textContent = "Selecciona un archivo XML.";
@@ -176,8 +172,7 @@ function subirArchivoUsuario(event) {
         archivos.unshift({
             id: `xml-${Date.now()}`,
             nombre: archivo.name,
-            autor: usuarioActual.nombre,
-            correo: usuarioActual.correo,
+            autor: "Administrador",
             fecha: obtenerFechaActual(),
             contenido: lector.result
         });
@@ -211,7 +206,7 @@ function renderizarArchivosUsuario() {
             <p>Autor: ${escaparHtml(archivo.autor)}</p>
             <p>Fecha: ${escaparHtml(archivo.fecha)}</p>
             <div class="file-actions">
-                <button class="ghost-button" type="button" onclick="descargarArchivo('${archivo.id}')">Descargar</button>
+                <button class="ghost-button" type="button" onclick="descargarArchivoUsuario('${archivo.id}')">Descargar</button>
                 <button class="ghost-button" type="button" onclick="verContenidoXml('${archivo.id}')">Ver contenido</button>
             </div>
             <pre id="preview-${archivo.id}" class="xml-preview oculto"></pre>
@@ -299,6 +294,36 @@ function descargarArchivo(idArchivo) {
     enlace.click();
     document.body.removeChild(enlace);
     URL.revokeObjectURL(url);
+}
+
+function descargarArchivoUsuario(idArchivo) {
+    localStorage.setItem(STORAGE_KEYS.descargaPendiente, idArchivo);
+
+    const formulario = document.querySelector(".survey-form");
+    const mensaje = document.getElementById("surveyMensaje");
+
+    if (formulario) {
+        formulario.reset();
+    }
+
+    localStorage.removeItem(STORAGE_KEYS.sesionUsuario);
+    mostrarVista("surveyView");
+
+    if (mensaje) {
+        mensaje.textContent = "Para descargar este archivo XML debes llenar la encuesta obligatoriamente.";
+    }
+}
+
+function procesarDescargaPendiente() {
+    const idArchivo = localStorage.getItem(STORAGE_KEYS.descargaPendiente);
+    const usuarioActual = obtenerSesionUsuario();
+
+    if (!idArchivo || !usuarioActual) {
+        return;
+    }
+
+    localStorage.removeItem(STORAGE_KEYS.descargaPendiente);
+    descargarArchivo(idArchivo);
 }
 
 function verContenidoXml(idArchivo) {

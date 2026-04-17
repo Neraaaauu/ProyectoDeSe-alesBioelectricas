@@ -260,8 +260,26 @@
             <section class="panel">
                 <div class="panel-head">
                     <div>
+                        <p class="eyebrow">Carga administrativa</p>
+                        <h3>Subir archivo XML</h3>
+                    </div>
+                </div>
+
+                <form class="upload-form" onsubmit="subirArchivoAdmin(event)">
+                    <label class="field field-full">
+                        <span>Selecciona un archivo XML</span>
+                        <input id="adminXmlFileInput" type="file" accept=".xml,text/xml,application/xml" required>
+                    </label>
+                    <button class="primary-button" type="submit">Subir archivo XML</button>
+                    <p id="adminUploadMensaje" class="form-message success-message"></p>
+                </form>
+            </section>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <div>
                         <p class="eyebrow">Archivos XML</p>
-                        <h3>Archivos aportados por usuarios</h3>
+                        <h3>Archivos disponibles en la plataforma</h3>
                     </div>
                     <span id="adminXmlCount" class="result-note">0 archivos</span>
                 </div>

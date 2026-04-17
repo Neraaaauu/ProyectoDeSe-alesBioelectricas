@@ -12,7 +12,7 @@
 <body>
     <main class="app-shell">
 
-        <section id="surveyView" class="survey-view">
+        <section id="surveyView" class="survey-view oculto">
             <div class="panel survey-panel">
                 <div class="panel-head">
                     <div>
@@ -55,7 +55,7 @@
         </section>
 
 
-        <section id="userView" class="user-view oculto">
+        <section id="userView" class="user-view">
             <header class="admin-header">
                 <div>
                     <p class="eyebrow">Área de usuario</p>
@@ -63,15 +63,15 @@
                     <p id="userWelcome" class="hero-text"></p>
                 </div>
                 <div class="header-actions">
-                    <button class="ghost-button" type="button" onclick="window.location.href='adminlogin.html'">Salir</button>
+                    <button class="ghost-button" type="button" onclick="window.location.href='../index.html'">Volver al portal</button>
                 </div>
             </header>
 
             <section class="hero-card">
                 <div>
-                    <p class="card-label">Acceso habilitado</p>
-                    <h3>Consulta, descarga y aporta archivos XML</h3>
-                    <p class="hero-text">Cada aporte queda registrado para que el administrador pueda revisarlo dentro del panel principal.</p>
+                    <p class="card-label">Repositorio disponible</p>
+                    <h3>Consulta y descarga archivos XML</h3>
+                    <p class="hero-text">Puedes ver todos los XML desde este panel. Para descargar cualquiera de ellos, primero debes completar la encuesta de acceso.</p>
                 </div>
 
                 <div class="stats-grid">
@@ -81,31 +81,13 @@
                     </article>
                     <article class="stat-box">
                         <span id="xmlUsuarios" class="stat-value">0</span>
-                        <span class="stat-label">Aportes de usuarios</span>
+                        <span class="stat-label">XML cargados</span>
                     </article>
                     <article class="stat-box accent">
                         <span id="ultimoRegistro" class="stat-value">-</span>
                         <span class="stat-label">Último registro</span>
                     </article>
                 </div>
-            </section>
-
-            <section class="panel">
-                <div class="panel-head">
-                    <div>
-                        <p class="eyebrow">Subir archivo</p>
-                        <h3>Aporta un XML al repositorio</h3>
-                    </div>
-                </div>
-
-                <form class="upload-form" onsubmit="subirArchivoUsuario(event)">
-                    <label class="field field-full">
-                        <span>Selecciona un archivo XML</span>
-                        <input id="xmlFileInput" type="file" accept=".xml,text/xml,application/xml" required>
-                    </label>
-                    <button class="primary-button" type="submit">Subir archivo XML</button>
-                    <p id="uploadMensaje" class="form-message success-message"></p>
-                </form>
             </section>
 
             <section class="panel">

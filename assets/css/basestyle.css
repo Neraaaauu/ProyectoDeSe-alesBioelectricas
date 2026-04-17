@@ -24,6 +24,10 @@ body {
     line-height: 1.6;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .navbar {
     position: fixed;
     top: 0;
@@ -123,15 +127,30 @@ body {
     opacity: 0.9;
 }
 
+.hero-kicker {
+    display: inline-flex;
+    margin-bottom: 18px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.12);
+    font-size: 0.92rem !important;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    backdrop-filter: blur(8px);
+}
 
 .hero-actions { display: flex; gap: 15px; justify-content: center; }
 
-.btn-primary, .btn-glass {
+.btn-primary, .btn-glass, .btn-secondary {
     padding: 14px 32px;
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-primary {
@@ -152,10 +171,72 @@ body {
     color: white;
 }
 
+.btn-secondary {
+    background: white;
+    border: 1px solid rgba(27, 73, 101, 0.12);
+    color: var(--primary-dark);
+    box-shadow: 0 12px 25px rgba(27, 73, 101, 0.1);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 30px rgba(27, 73, 101, 0.14);
+}
+
 .btn-glass:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-3px); }
 
+.hero-highlights {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.hero-highlights span {
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: 0.92rem;
+}
+
+.quick-stats {
+    position: relative;
+    z-index: 2;
+    margin-top: -56px;
+    padding: 0 2rem;
+}
+
+.quick-stats-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.quick-stat {
+    padding: 24px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 18px 40px rgba(27, 73, 101, 0.12);
+    border: 1px solid rgba(27, 73, 101, 0.06);
+}
+
+.quick-stat strong {
+    display: block;
+    color: var(--primary-dark);
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+}
+
+.quick-stat span {
+    color: var(--text-muted);
+}
+
 .about-section {
-    padding: 6rem 2rem;
+    padding: 7rem 2rem 6rem;
     background: white;
 }
 
@@ -189,6 +270,13 @@ body {
     font-size: 1.1rem;
 }
 
+.about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+}
+
 .about-image-card {
     height: 400px;
     border-radius: var(--radius);
@@ -196,6 +284,27 @@ body {
     background-size: cover;
     background-position: center;
     box-shadow: 0 20px 40px rgba(27, 73, 101, 0.15);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: end;
+}
+
+.about-image-overlay {
+    width: 100%;
+    padding: 26px;
+    color: white;
+    background: linear-gradient(to top, rgba(27, 73, 101, 0.95) 0%, rgba(27, 73, 101, 0.7) 55%, rgba(27, 73, 101, 0.08) 100%);
+}
+
+.about-image-overlay h3 {
+    font-size: 1.7rem;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+.about-image-overlay p {
+    opacity: 0.92;
 }
 
 .features-section {
@@ -212,6 +321,12 @@ body {
 .features-header h2 {
     font-size: 2.5rem;
     color: var(--primary-dark);
+}
+
+.features-header p:last-child {
+    max-width: 680px;
+    margin: 12px auto 0;
+    color: var(--text-muted);
 }
 
 .cards-grid {
@@ -300,6 +415,52 @@ body {
 }
 
 @media (max-width: 768px) {
+    .navbar {
+        padding: 1rem 1.2rem;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px 16px;
+    }
+
+    .nav-links a {
+        margin-left: 0;
+    }
+
+    .hero-section {
+        height: auto;
+        min-height: 90vh;
+        padding: 8rem 0 5rem;
+        background-attachment: scroll;
+    }
+
+    .hero-content h1 {
+        font-size: 2.6rem;
+    }
+
+    .hero-actions,
+    .about-actions {
+        flex-direction: column;
+    }
+
+    .quick-stats {
+        margin-top: -24px;
+    }
+
+    .quick-stats-grid,
+    .about-container {
+        grid-template-columns: 1fr;
+    }
+
+    .about-image-card {
+        min-height: 340px;
+    }
+
     .footer-content {
         flex-direction: column;
         text-align: center;
