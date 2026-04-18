@@ -14,7 +14,12 @@
             <span class="logo-text">BioSigLab</span>
             <span class="logo-badge">UABC</span>
         </div>
-        <div class="nav-links">
+        <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteMenu" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div id="siteMenu" class="nav-links">
             <a href="#about">Proyecto</a>
             <a href="#resources">Recursos</a>
             <a href="pages/usuario.html">Descarga</a>
@@ -130,6 +135,27 @@
         </div>
     </footer>
 
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("siteMenu");
+            const button = document.querySelector(".nav-toggle");
+            const isOpen = menu.classList.toggle("is-open");
+
+            button.setAttribute("aria-expanded", String(isOpen));
+            document.body.classList.toggle("menu-open", isOpen);
+        }
+
+        document.querySelectorAll("#siteMenu a").forEach((link) => {
+            link.addEventListener("click", () => {
+                const menu = document.getElementById("siteMenu");
+                const button = document.querySelector(".nav-toggle");
+
+                menu.classList.remove("is-open");
+                button.setAttribute("aria-expanded", "false");
+                document.body.classList.remove("menu-open");
+            });
+        });
+    </script>
 
 </body>
 </html>
