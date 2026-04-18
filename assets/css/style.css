@@ -241,6 +241,12 @@ body {
     margin-top: 20px;
 }
 
+.login-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
 .admin-header,
 .panel-head,
 .persona-top,
@@ -421,7 +427,8 @@ body {
     .file-grid,
     .registry-grid,
     .survey-form,
-    .upload-form {
+    .upload-form,
+    .login-actions {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
@@ -446,7 +453,8 @@ body {
     .file-grid,
     .registry-grid,
     .survey-form,
-    .upload-form {
+    .upload-form,
+    .login-actions {
         grid-template-columns: 1fr;
     }
 

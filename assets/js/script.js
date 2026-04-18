@@ -1,8 +1,3 @@
-const CREDENCIALES = {
-    usuario: "admin",
-    clave: "1234"
-};
-
 const STORAGE_KEYS = {
     usuarios: "bioelectricas_usuarios",
     archivos: "bioelectricas_archivos_xml",
@@ -44,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderizarArchivosAdmin();
     actualizarResumen();
     restaurarSesionUsuario();
+    restaurarSesionAdmin();
 });
 
 function mostrarVista(viewId) {
@@ -68,28 +64,105 @@ function mostrarVista(viewId) {
     }
 }
 
-function iniciarSesion(event) {
+async function iniciarSesion(event) {
     event.preventDefault();
 
     const usuario = document.getElementById("usuario").value.trim();
     const clave = document.getElementById("clave").value.trim();
     const mensaje = document.getElementById("loginMensaje");
 
-    if (usuario === CREDENCIALES.usuario && clave === CREDENCIALES.clave) {
-        mensaje.textContent = "";
-        mostrarVista("adminView");
+    if (!mensaje) {
         return;
     }
 
-    mensaje.textContent = "Usuario o contrasena incorrectos.";
+    try {
+        const respuesta = await fetch("./api/admin_login.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({ usuario, clave })
+        });
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok || !datos.ok) {
+            mensaje.textContent = datos.message || "No fue posible iniciar sesion.";
+            return;
+        }
+
+        mensaje.textContent = "";
+        mostrarVista("adminView");
+        return;
+    } catch (error) {
+        mensaje.textContent = "No fue posible conectar con el servidor. Usa la pagina desde XAMPP o Apache.";
+    }
 }
 
-function cerrarSesion() {
-    document.getElementById("usuario").value = "";
-    document.getElementById("clave").value = "";
-    document.getElementById("loginMensaje").textContent = "";
+function recuperarContrasena() {
+    window.location.href = "recuperar-admin.php";
+}
+
+async function cerrarSesion() {
+    const usuarioInput = document.getElementById("usuario");
+    const claveInput = document.getElementById("clave");
+    const mensaje = document.getElementById("loginMensaje");
+
+    try {
+        await fetch("./api/admin_logout.php", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+    } catch (error) {
+        // Aunque falle la llamada, limpiamos la vista local.
+    }
+
+    if (usuarioInput) {
+        usuarioInput.value = "";
+    }
+
+    if (claveInput) {
+        claveInput.value = "";
+    }
+
+    if (mensaje) {
+        mensaje.textContent = "";
+    }
+
     limpiarFiltros();
     mostrarVista("homeView");
+}
+
+async function restaurarSesionAdmin() {
+    const loginView = document.getElementById("loginView");
+    const adminView = document.getElementById("adminView");
+
+    if (!loginView || !adminView) {
+        return;
+    }
+
+    try {
+        const respuesta = await fetch("./api/admin_session.php", {
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+
+        if (!respuesta.ok) {
+            return;
+        }
+
+        const datos = await respuesta.json();
+
+        if (datos.authenticated) {
+            mostrarVista("adminView");
+        }
+    } catch (error) {
+        // Si no hay servidor PHP activo, dejamos la vista en modo local.
+    }
 }
 
 function registrarUsuario(event) {
@@ -121,6 +194,11 @@ function registrarUsuario(event) {
 
 function restaurarSesionUsuario() {
     const sesion = localStorage.getItem(STORAGE_KEYS.sesionUsuario);
+    const vistaUsuario = document.getElementById("userView");
+
+    if (!vistaUsuario) {
+        return;
+    }
 
     if (sesion) {
         procesarDescargaPendiente();

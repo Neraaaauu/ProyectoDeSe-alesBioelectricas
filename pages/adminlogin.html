@@ -15,13 +15,11 @@
         <section id="homeView" class="home-view">
             <div class="login-panel">
                 <div class="login-copy">
-                    <p class="eyebrow">Plataforma de señales bioeléctricas</p>
+                    <p class="eyebrow">Plataforma de señales bioeléctricas administrativa</p>
                     <h1>Portal de acceso exclusivo para administradores</h1>
-                    <p>Accede al panel de control central para gestionar la base de datos, revisar los registros clínicos y administrar los archivos XML compartidos en la plataforma.</p>
+                    
                     <div class="login-hint">
-                        <span>Gestión de registros</span>
-                        <span>Revisión de XML</span>
-                        <span>Panel administrativo</span>
+                        
                     </div>
                 </div>
 
@@ -30,7 +28,7 @@
                         <p class="eyebrow">Administrador</p>
                         <h2>Entrar al panel</h2>
                         <p>Accede con tus credenciales de seguridad para gestionar el sistema completo.</p>
-                        <button class="primary-button" type="button" onclick="mostrarVista('loginView')">Ir al login seguro</button>
+                        <button class="primary-button" type="button" onclick="mostrarVista('loginView')">Aqui inicia sesion</button>
                     </div>
                 </div>
             </div>
@@ -41,7 +39,7 @@
                 <div class="login-copy">
                     <p class="eyebrow">Acceso seguro</p>
                     <h1>Ingreso al área del administrador</h1>
-                    <p>Utiliza las credenciales para revisar los registros de usuarios y los archivos XML cargados en la plataforma.</p>
+                    
                 </div>
 
                 <form class="login-form" onsubmit="iniciarSesion(event)">
@@ -56,7 +54,10 @@
                     </label>
 
                     <button class="primary-button" type="submit">Entrar al panel</button>
-                    <button class="ghost-button" type="button" onclick="mostrarVista('homeView')">Volver al inicio</button>
+                    <div class="login-actions">
+                        <button class="ghost-button" type="button" onclick="recuperarContrasena()">Recuperar contraseña</button>
+                        <button class="ghost-button" type="button" onclick="window.location.href='../index.html'">Regresar al inicio</button>
+                    </div>
                     <p id="loginMensaje" class="form-message"></p>
                 </form>
             </div>
