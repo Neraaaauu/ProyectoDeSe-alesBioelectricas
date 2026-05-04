@@ -1,0 +1,11 @@
+{
+    "name": "BioSigLab",
+    "short_name": "BioSigLab",
+    "description": "Repositorio y visor ligero de senales bioelectricas.",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#f7f2e9",
+    "theme_color": "#1B4965",
+    "icons": []
+}
