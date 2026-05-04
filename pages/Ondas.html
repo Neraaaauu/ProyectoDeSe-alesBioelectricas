@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -430,3 +431,398 @@ window.addEventListener('DOMContentLoaded', () => {
 <script src="../assets/js/offline.js"></script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrocardiograma</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fcead9 0%, #e2eeea 100%);
+            --primary: #15658f;
+            --primary-dark: #0f4a6b;
+            --panel-bg: rgba(255, 255, 255, 0.7);
+            --panel-border: rgba(255, 255, 255, 0.8);
+            --radius: 24px;
+            --font-main: 'Outfit', sans-serif;
+        }
+
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+
+        body {
+            margin: 0;
+            font-family: var(--font-main);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            font-weight: 800;
+            text-align: center;
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--panel-border);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            margin-bottom: 25px;
+            padding: 10px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        #seccionInfe {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        #loadingMsg {
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 10px;
+        }
+
+        #errorMsg {
+            font-size: 1rem;
+            color: #c0392b;
+            font-weight: 600;
+            padding: 10px;
+            display: none;
+        }
+
+        button#resetBtn {
+            padding: 14px 30px;
+            border-radius: 50px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(21, 101, 143, 0.3);
+            font-size: 1rem;
+        }
+
+        button#resetBtn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(21, 101, 143, 0.4);
+        }
+
+        #derivaciones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            width: 100%;
+            padding: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 16px;
+        }
+
+        #derivaciones label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #444;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        #InfoGen {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 20px;
+        }
+
+        #InfoGen label { font-size: 0.95rem; color: #333; }
+        strong { color: var(--primary-dark); }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h2>Electrocardiograma</h2>
+
+        <div class="card">
+            <div class="chart-container">
+                <canvas id="OndaChart"></canvas>
+            </div>
+
+            <div id="seccionInfe">
+                <div id="loadingMsg">Cargando datos del ECG</div>
+
+                <button id="resetBtn" onclick="resetZoom()" style="display:none">Restablecer Zoom</button>
+
+                <section id="derivaciones">
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_I"   onchange="actualizarGrafico()"> Derivación DI</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_II"  onchange="actualizarGrafico()"> Derivación DII</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_III" onchange="actualizarGrafico()"> Derivación DIII</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_AVR" onchange="actualizarGrafico()"> Derivación aVR</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_AVL" onchange="actualizarGrafico()"> Derivación aVL</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_AVF" onchange="actualizarGrafico()"> Derivación aVF</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_V1"  onchange="actualizarGrafico()"> Derivación V1</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_V2"  onchange="actualizarGrafico()"> Derivación V2</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_V3"  onchange="actualizarGrafico()"> Derivación V3</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_V4"  onchange="actualizarGrafico()"> Derivación V4</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_V5"  onchange="actualizarGrafico()"> Derivación V5</label>
+                    <label><input type="checkbox" id="MDC_ECG_LEAD_V6"  onchange="actualizarGrafico()"> Derivación V6</label>
+                </section>
+
+                <section id="InfoGen" style="display:none">
+                    <label><strong>ID Paciente:</strong> <span id="infoID">—</span></label>
+                    <label><strong>Edad:</strong> <span id="infoEdad">—</span></label>
+                    <label><strong>Sexo:</strong> <span id="infoSexo">—</span></label>
+                    <label><strong>Fecha de registro:</strong> <span id="infoFecha">—</span></label>
+                    <label><strong>Diagnóstico:</strong> <span id="infoDx">—</span></label>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const colores = {
+        MDC_ECG_LEAD_I:   '#15658f',
+        MDC_ECG_LEAD_II:  '#e74c3c',
+        MDC_ECG_LEAD_III: '#2ecc71',
+        MDC_ECG_LEAD_AVR: '#9b59b6',
+        MDC_ECG_LEAD_AVL: '#f39c12',
+        MDC_ECG_LEAD_AVF: '#1abc9c',
+        MDC_ECG_LEAD_V1:  '#e67e22',
+        MDC_ECG_LEAD_V2:  '#3498db',
+        MDC_ECG_LEAD_V3:  '#c0392b',
+        MDC_ECG_LEAD_V4:  '#27ae60',
+        MDC_ECG_LEAD_V5:  '#8e44ad',
+        MDC_ECG_LEAD_V6:  '#d35400',
+    };
+
+    const nombreDerivacion = {
+        MDC_ECG_LEAD_I:   'DI',
+        MDC_ECG_LEAD_II:  'DII',
+        MDC_ECG_LEAD_III: 'DIII',
+        MDC_ECG_LEAD_AVR: 'aVR',
+        MDC_ECG_LEAD_AVL: 'aVL',
+        MDC_ECG_LEAD_AVF: 'aVF',
+        MDC_ECG_LEAD_V1:  'V1',
+        MDC_ECG_LEAD_V2:  'V2',
+        MDC_ECG_LEAD_V3:  'V3',
+        MDC_ECG_LEAD_V4:  'V4',
+        MDC_ECG_LEAD_V5:  'V5',
+        MDC_ECG_LEAD_V6:  'V6',
+    };
+
+    let todasLasDerivaciones = {};
+    let chart = null;
+
+    async function cargarXML(url) {
+        const respuesta = await fetch(url);
+        if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+        const textoXML = await respuesta.text();
+        const parser = new DOMParser();
+        return parser.parseFromString(textoXML, 'text/xml');
+    }
+
+    function parsearDerivaciones(xmlDoc) {
+        const resultado = {};
+
+        //sequence
+        const sequences = xmlDoc.getElementsByTagName('sequence');
+
+        for (let seq of sequences) {
+            const codeEl = seq.getElementsByTagName('code')[0];
+            if (!codeEl) continue;
+
+            const leadCode = codeEl.getAttribute('code');
+            if (!leadCode || !leadCode.startsWith('MDC_ECG_LEAD_')) continue;
+
+            const digitsEl = seq.getElementsByTagName('digits')[0];
+            if (!digitsEl) continue;
+
+            const valores = digitsEl.textContent.trim().split(/\s+/).map(Number);
+            resultado[leadCode] = valores;
+        }
+
+        return resultado;
+    }
+
+    function parsearInfoPaciente(xmlDoc) {
+        try {
+            const pacID = xmlDoc.querySelector('PatientID')?.textContent || '—';
+            const edad = xmlDoc.querySelector('Age')?.textContent?.replace('P','').replace('y',' años') || '—';
+            const sexoCode = xmlDoc.querySelector('administrativeGenderCode')?.getAttribute('code');
+            const sexo = sexoCode === 'F' ? 'Femenino' : sexoCode === 'M' ? 'Masculino' : '—';
+            const fechaRaw = xmlDoc.querySelector('effectiveTime > low')?.getAttribute('value') || '';
+            const fecha = fechaRaw ? `${fechaRaw.slice(6,8)}/${fechaRaw.slice(4,6)}/${fechaRaw.slice(0,4)}` : '—';
+            const dx = xmlDoc.querySelector('MDC_ECG_INTERPRETATION_SUMMARY ~ value') || xmlDoc.querySelector('[code="MDC_ECG_INTERPRETATION_SUMMARY"]')?.parentElement?.querySelector('value');
+
+            document.getElementById('infoID').textContent = pacID;
+            document.getElementById('infoEdad').textContent  = edad;
+            document.getElementById('infoSexo').textContent  = sexo;
+            document.getElementById('infoFecha').textContent = fecha;
+
+            // Diagnóstico - buscar en anotaciones
+            const annotations = xmlDoc.querySelectorAll('annotation');
+            for (let ann of annotations) {
+                const code = ann.querySelector('code')?.getAttribute('code');
+                if (code === 'MDC_ECG_INTERPRETATION_SUMMARY') {
+                    const val = ann.querySelector('value');
+                    if (val) document.getElementById('infoDx').textContent = val.textContent;
+                }
+            }
+        } catch(e) {  }
+    }
+
+    function inicializarGrafico() {
+        const ctx = document.getElementById('OndaChart').getContext('2d');
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#333', font: { family: 'Outfit' } }
+                    },
+                    zoom: {
+                        pan:  { enabled: true, mode: 'x' },
+                        zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#666', maxTicksLimit: 20 },
+                        grid:  { color: 'rgba(0,0,0,0.05)' }
+                    },
+                    y: {
+                        ticks: { color: '#666' },
+                        grid:  { color: 'rgba(0,0,0,0.05)' }
+                    }
+                }
+            }
+        });
+    }
+
+    function actualizarGrafico() {
+        const datasets = [];
+        let maxLen = 0;
+
+        for (const [codigo, datos] of Object.entries(todasLasDerivaciones)) {
+            const checkbox = document.getElementById(codigo);
+            if (!checkbox || !checkbox.checked) continue;
+            if (datos.length > maxLen) maxLen = datos.length;
+
+            datasets.push({
+                label:       nombreDerivacion[codigo] || codigo,
+                data:        datos,
+                borderColor: colores[codigo] || '#333',
+                borderWidth: 1.5,
+                tension:     0.2,
+                pointRadius: 0,
+                fill:        false
+            });
+        }
+
+        const etiquetas = Array.from({ length: maxLen }, (_, i) => i);
+
+        chart.data.labels   = etiquetas;
+        chart.data.datasets = datasets;
+        chart.update();
+    }
+
+    function resetZoom() {
+        if (chart) chart.resetZoom();
+    }
+
+    async function main() {
+        inicializarGrafico();
+
+        const rutaXML = 'prueba0.xml';
+
+        try {
+            const xmlDoc = await cargarXML(rutaXML);
+
+            if (xmlDoc.querySelector('parsererror')) {
+                throw new Error('El archivo XML tiene errores de formato.');
+            }
+
+            todasLasDerivaciones = parsearDerivaciones(xmlDoc);
+
+            if (Object.keys(todasLasDerivaciones).length === 0) {
+                throw new Error('No se encontraron derivaciones en el XML.');
+            }
+
+            parsearInfoPaciente(xmlDoc);
+
+            document.getElementById('loadingMsg').style.display = 'none';
+            document.getElementById('resetBtn').style.display = 'inline-block';
+            document.getElementById('InfoGen').style.display = 'grid';
+
+            const defecto = document.getElementById('MDC_ECG_LEAD_I');
+            if (defecto) defecto.checked = true;
+            actualizarGrafico();
+
+        } catch (err) {
+            document.getElementById('loadingMsg').style.display = 'none';
+            const errEl = document.getElementById('errorMsg');
+            errEl.style.display = 'block';
+            errEl.textContent   = `Error: ${err.message}`;
+            console.error('Error cargando ECG:', err);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', main);
+    </script>
+</body>
+</html>
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c

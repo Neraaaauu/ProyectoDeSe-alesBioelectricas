@@ -1,0 +1,135 @@
+hellocccccccccc
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor ECG Animado</title>
+    <style>
+        body {
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .monitor-container {
+            position: relative;
+            border: 4px solid #444;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            background: #000;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #0f0;
+            font-size: 18px;
+            text-shadow: 0 0 5px #0f0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="monitor-container">
+    <div class="label">HR: 72 BPM</div>
+    <canvas id="ecgCanvas"></canvas>
+</div>
+
+<script>
+    const canvas = document.getElementById('ecgCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Configuración del tamaño
+    canvas.width = 800;
+    canvas.height = 300;
+
+    const width = canvas.width;
+    const height = canvas.height;
+    const midY = height / 2;
+
+    let x = 0;
+    let points = [];
+    const speed = 3; // Velocidad de movimiento
+
+    function drawGrid() {
+        ctx.strokeStyle = '#003300';
+        ctx.lineWidth = 1;
+        
+        // Líneas verticales
+        for (let i = 0; i < width; i += 40) {
+            ctx.beginPath();
+            ctx.moveTo(i, 0);
+            ctx.lineTo(i, height);
+            ctx.stroke();
+        }
+        // Líneas horizontales
+        for (let j = 0; j < height; j += 40) {
+            ctx.beginPath();
+            ctx.moveTo(0, j);
+            ctx.lineTo(width, j);
+            ctx.stroke();
+        }
+    }
+
+    // Definición de los picos del latido (onda P, complejo QRS, onda T)
+    function getECGPoint(time) {
+        const t = time % 100;
+        if (t > 10 && t < 15) return -10; // Onda P
+        if (t === 20) return 10;          // Punto Q
+        if (t === 25) return -100;        // Pico R (hacia arriba en canvas el eje Y es invertido)
+        if (t === 30) return 20;          // Punto S
+        if (t > 45 && t < 55) return -20; // Onda T
+        return 0; // Línea base
+    }
+
+    function animate() {
+        // Efecto de barrido: limpiamos un pequeño rectángulo delante de la línea
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(x, 0, 20, height);
+
+        // Dibujar el punto actual
+        const yOffset = getECGPoint(x);
+        const currentY = midY + yOffset;
+
+        ctx.strokeStyle = '#00ff00';
+        ctx.lineWidth = 2;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "#00ff00";
+
+        ctx.beginPath();
+        // Conectar con el punto anterior para que sea una línea continua
+        ctx.moveTo(x - speed, points[x - speed] || midY);
+        ctx.lineTo(x, currentY);
+        ctx.stroke();
+
+        points[x] = currentY;
+
+        // Resetear cuando llega al final del canvas
+        x += speed;
+        if (x > width) {
+            x = 0;
+            // No limpiamos todo el canvas para mantener el fondo, 
+            // pero redibujamos la cuadrícula de vez en cuando
+            drawGrid();
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    drawGrid();
+    animate();
+</script>
+
+</body>
+</html>

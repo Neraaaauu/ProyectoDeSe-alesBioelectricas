@@ -1,9 +1,18 @@
+<<<<<<< HEAD
+=======
+const CREDENCIALES = {
+    usuario: "admin",
+    clave: "1234"
+};
+
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 const STORAGE_KEYS = {
     usuarios: "bioelectricas_usuarios",
     archivos: "bioelectricas_archivos_xml",
     sesionUsuario: "bioelectricas_usuario_actual"
 };
 
+<<<<<<< HEAD
 const NAV_KEYS = {
     adminSesion: "bioelectricas_admin_sesion",
     retornoOndas: "bioelectricas_retorno_ondas",
@@ -19,6 +28,8 @@ let adminIdleInterval = null;
 const ADMIN_OFFLINE_USER = "admin";
 const ADMIN_OFFLINE_PASS = "admin123";
 
+=======
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 const XML_BASE = [
     {
         id: "xml-demo-1",
@@ -53,9 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
     renderizarArchivosAdmin();
     actualizarResumen();
     restaurarSesionUsuario();
+<<<<<<< HEAD
     restaurarVistaAdminSiCorresponde();
     mostrarAvisoCierrePorInactividad();
     iniciarAutoLogoutAdmin();
+=======
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 });
 
 function mostrarVista(viewId) {
@@ -80,6 +94,7 @@ function mostrarVista(viewId) {
     }
 }
 
+<<<<<<< HEAD
 async function iniciarSesion(event) {
     event.preventDefault();
 
@@ -124,21 +139,41 @@ async function iniciarSesion(event) {
     }
 
     mensaje.textContent = "Usuario o contraseña incorrectos.";
+=======
+function iniciarSesion(event) {
+    event.preventDefault();
+
+    const usuario = document.getElementById("usuario").value.trim();
+    const clave = document.getElementById("clave").value.trim();
+    const mensaje = document.getElementById("loginMensaje");
+
+    if (usuario === CREDENCIALES.usuario && clave === CREDENCIALES.clave) {
+        mensaje.textContent = "";
+        mostrarVista("adminView");
+        return;
+    }
+
+    mensaje.textContent = "Usuario o contrasena incorrectos.";
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 }
 
 function cerrarSesion() {
     document.getElementById("usuario").value = "";
     document.getElementById("clave").value = "";
     document.getElementById("loginMensaje").textContent = "";
+<<<<<<< HEAD
     sessionStorage.removeItem(NAV_KEYS.adminSesion);
     sessionStorage.removeItem(NAV_KEYS.retornoOndas);
     sessionStorage.removeItem(NAV_KEYS.adminLastActivity);
     sessionStorage.removeItem(NAV_KEYS.adminTimeoutNotice);
     localStorage.removeItem('ondas_referrer');
+=======
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
     limpiarFiltros();
     mostrarVista("homeView");
 }
 
+<<<<<<< HEAD
 function adminSesionActiva() {
     return sessionStorage.getItem(NAV_KEYS.adminSesion) === "activa";
 }
@@ -226,6 +261,8 @@ function restaurarVistaAdminSiCorresponde() {
     }
 }
 
+=======
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 function registrarUsuario(event) {
     event.preventDefault();
 
@@ -234,7 +271,10 @@ function registrarUsuario(event) {
         nombre: document.getElementById("visitorNombre").value.trim(),
         correo: document.getElementById("visitorCorreo").value.trim(),
         edad: document.getElementById("visitorEdad").value.trim(),
+<<<<<<< HEAD
         esUABC     : document.getElementById('checkUABC')?.checked || false,
+=======
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
         universidad: document.getElementById("visitorUniversidad").value.trim(),
         motivo: document.getElementById("visitorMotivo").value.trim(),
         fecha: obtenerFechaActual()
@@ -243,6 +283,7 @@ function registrarUsuario(event) {
     const usuarios = obtenerUsuarios();
     usuarios.unshift(registro);
     guardarUsuarios(usuarios);
+<<<<<<< HEAD
 
     localStorage.setItem(STORAGE_KEYS.sesionUsuario, JSON.stringify(registro));
 
@@ -253,15 +294,32 @@ function registrarUsuario(event) {
 
     actualizarPanelUsuario(); 
     renderizarArchivosUsuario(); 
+=======
+    localStorage.setItem(STORAGE_KEYS.sesionUsuario, JSON.stringify(registro));
+
+    document.getElementById("surveyMensaje").textContent = "Registro completado. Acceso habilitado al repositorio XML.";
+    document.querySelector(".survey-form").reset();
+
+    actualizarPanelUsuario();
+    renderizarRegistrosAdmin();
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
     mostrarVista("userView");
 }
 
 function restaurarSesionUsuario() {
     const sesion = localStorage.getItem(STORAGE_KEYS.sesionUsuario);
+<<<<<<< HEAD
+=======
+
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
     if (!sesion) {
         actualizarPanelUsuario();
         return;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
     actualizarPanelUsuario();
 }
 
@@ -271,11 +329,16 @@ function actualizarPanelUsuario() {
 
     if (bienvenida) {
         bienvenida.textContent = usuarioActual
+<<<<<<< HEAD
             ? `${usuarioActual.nombre}, ya puedes revisar los XML disponibles.`
+=======
+            ? `${usuarioActual.nombre}, ya puedes revisar los XML disponibles y compartir nuevos archivos.`
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
             : "Completa la encuesta para habilitar tu acceso al repositorio.";
     }
 
     const archivos = obtenerArchivos();
+<<<<<<< HEAD
     const ultimoRegistro = usuarioActual ? usuarioActual.nombre.split(" ")[0] : "-";
 
     const elXmlDisp = document.getElementById("xmlDisponibles");
@@ -288,11 +351,73 @@ function actualizarPanelUsuario() {
 function renderizarArchivosUsuario() {
     const contenedor = document.getElementById("xmlListTable");
     if (!contenedor) return;
+=======
+    const archivosUsuarios = archivos.filter((archivo) => archivo.autor !== "Sistema");
+    const ultimoRegistro = usuarioActual ? usuarioActual.nombre.split(" ")[0] : "-";
+
+    document.getElementById("xmlDisponibles").textContent = archivos.length;
+    document.getElementById("xmlUsuarios").textContent = archivosUsuarios.length;
+    document.getElementById("ultimoRegistro").textContent = ultimoRegistro;
+}
+
+function subirArchivoUsuario(event) {
+    event.preventDefault();
+
+    const input = document.getElementById("xmlFileInput");
+    const archivo = input.files[0];
+    const mensaje = document.getElementById("uploadMensaje");
+    const usuarioActual = obtenerSesionUsuario();
+
+    if (!usuarioActual) {
+        mensaje.textContent = "Primero completa la encuesta para poder subir archivos.";
+        return;
+    }
+
+    if (!archivo) {
+        mensaje.textContent = "Selecciona un archivo XML.";
+        return;
+    }
+
+    if (!archivo.name.toLowerCase().endsWith(".xml")) {
+        mensaje.textContent = "Solo se permiten archivos con extension .xml.";
+        return;
+    }
+
+    const lector = new FileReader();
+    lector.onload = () => {
+        const archivos = obtenerArchivos();
+        archivos.unshift({
+            id: `xml-${Date.now()}`,
+            nombre: archivo.name,
+            autor: usuarioActual.nombre,
+            correo: usuarioActual.correo,
+            fecha: obtenerFechaActual(),
+            contenido: lector.result
+        });
+
+        guardarArchivos(archivos);
+        input.value = "";
+        mensaje.textContent = "Archivo XML cargado correctamente.";
+        renderizarArchivosUsuario();
+        renderizarArchivosAdmin();
+        actualizarPanelUsuario();
+    };
+
+    lector.readAsText(archivo);
+}
+
+function renderizarArchivosUsuario() {
+    const contenedor = document.getElementById("xmlList");
+    if (!contenedor) {
+        return;
+    }
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 
     const archivos = obtenerArchivos();
     contenedor.innerHTML = "";
 
     archivos.forEach((archivo) => {
+<<<<<<< HEAD
         const fila = document.createElement("tr");
         fila.innerHTML = `
             <td style="padding: 12px;">${escaparHtml(archivo.paciente_id_xml || archivo.nombre)}</td>
@@ -305,6 +430,22 @@ function renderizarArchivosUsuario() {
             </td>
         `;
         contenedor.appendChild(fila);
+=======
+        const card = document.createElement("article");
+        card.className = "file-card";
+        card.innerHTML = `
+            <p class="file-tag">XML</p>
+            <h4>${escaparHtml(archivo.nombre)}</h4>
+            <p>Autor: ${escaparHtml(archivo.autor)}</p>
+            <p>Fecha: ${escaparHtml(archivo.fecha)}</p>
+            <div class="file-actions">
+                <button class="ghost-button" type="button" onclick="descargarArchivo('${archivo.id}')">Descargar</button>
+                <button class="ghost-button" type="button" onclick="verContenidoXml('${archivo.id}')">Ver contenido</button>
+            </div>
+            <pre id="preview-${archivo.id}" class="xml-preview oculto"></pre>
+        `;
+        contenedor.appendChild(card);
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
     });
 }
 
@@ -312,7 +453,13 @@ function renderizarRegistrosAdmin() {
     const contenedor = document.getElementById("userRegistry");
     const contador = document.getElementById("userRegistryCount");
 
+<<<<<<< HEAD
     if (!contenedor || !contador) return;
+=======
+    if (!contenedor || !contador) {
+        return;
+    }
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 
     const usuarios = obtenerUsuarios();
     contenedor.innerHTML = "";
@@ -338,6 +485,7 @@ function renderizarRegistrosAdmin() {
     });
 }
 
+<<<<<<< HEAD
 /* ── Estado del filtro de XMLs ── */
 let _xmlFiltroActivo = '';
 
@@ -1265,10 +1413,86 @@ function convertirXmlAXlsx(xmlTexto, nombreArchivo) {
 
 function inicializarArchivos() {
     if (!localStorage.getItem(STORAGE_KEYS.archivos)) {
+=======
+function renderizarArchivosAdmin() {
+    const contenedor = document.getElementById("adminXmlList");
+    const contador = document.getElementById("adminXmlCount");
+
+    if (!contenedor || !contador) {
+        return;
+    }
+
+    const archivos = obtenerArchivos();
+    contenedor.innerHTML = "";
+    contador.textContent = `${archivos.length} archivos`;
+
+    archivos.forEach((archivo) => {
+        const card = document.createElement("article");
+        card.className = "file-card";
+        card.innerHTML = `
+            <p class="file-tag">XML</p>
+            <h4>${escaparHtml(archivo.nombre)}</h4>
+            <p>Autor: ${escaparHtml(archivo.autor)}</p>
+            <p>${archivo.correo ? `Correo: ${escaparHtml(archivo.correo)}` : "Archivo base del sistema"}</p>
+            <p>Fecha: ${escaparHtml(archivo.fecha)}</p>
+            <div class="file-actions">
+                <button class="ghost-button" type="button" onclick="descargarArchivo('${archivo.id}')">Descargar</button>
+                <button class="ghost-button" type="button" onclick="verContenidoXmlAdmin('${archivo.id}')">Ver contenido</button>
+            </div>
+            <pre id="admin-preview-${archivo.id}" class="xml-preview oculto"></pre>
+        `;
+        contenedor.appendChild(card);
+    });
+}
+
+function descargarArchivo(idArchivo) {
+    const archivo = obtenerArchivos().find((item) => item.id === idArchivo);
+
+    if (!archivo) {
+        return;
+    }
+
+    const blob = new Blob([archivo.contenido], { type: "application/xml" });
+    const url = URL.createObjectURL(blob);
+    const enlace = document.createElement("a");
+    enlace.href = url;
+    enlace.download = archivo.nombre;
+    document.body.appendChild(enlace);
+    enlace.click();
+    document.body.removeChild(enlace);
+    URL.revokeObjectURL(url);
+}
+
+function verContenidoXml(idArchivo) {
+    alternarVistaPrevia(idArchivo, "preview-");
+}
+
+function verContenidoXmlAdmin(idArchivo) {
+    alternarVistaPrevia(idArchivo, "admin-preview-");
+}
+
+function alternarVistaPrevia(idArchivo, prefijo) {
+    const archivo = obtenerArchivos().find((item) => item.id === idArchivo);
+    const preview = document.getElementById(`${prefijo}${idArchivo}`);
+
+    if (!archivo || !preview) {
+        return;
+    }
+
+    const estaOculto = preview.classList.contains("oculto");
+    preview.textContent = archivo.contenido;
+    preview.classList.toggle("oculto", !estaOculto);
+}
+
+function inicializarArchivos() {
+    const archivosGuardados = localStorage.getItem(STORAGE_KEYS.archivos);
+    if (!archivosGuardados) {
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
         guardarArchivos(XML_BASE);
     }
 }
 
+<<<<<<< HEAD
 function obtenerUsuarios() { return JSON.parse(localStorage.getItem(STORAGE_KEYS.usuarios) || "[]"); }
 function guardarUsuarios(usuarios) { localStorage.setItem(STORAGE_KEYS.usuarios, JSON.stringify(usuarios)); }
 function obtenerArchivos() { return JSON.parse(localStorage.getItem(STORAGE_KEYS.archivos) || "[]"); }
@@ -1310,6 +1534,51 @@ function filtrarArchivosUsuario() {
 function actualizarResumen() {
     const total = document.getElementById("totalPersonas");
     if (total) total.textContent = obtenerArchivos().length;
+=======
+function obtenerUsuarios() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.usuarios) || "[]");
+}
+
+function guardarUsuarios(usuarios) {
+    localStorage.setItem(STORAGE_KEYS.usuarios, JSON.stringify(usuarios));
+}
+
+function obtenerArchivos() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.archivos) || "[]");
+}
+
+function guardarArchivos(archivos) {
+    localStorage.setItem(STORAGE_KEYS.archivos, JSON.stringify(archivos));
+}
+
+function obtenerSesionUsuario() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.sesionUsuario) || "null");
+}
+
+function obtenerFechaActual() {
+    const fecha = new Date();
+    return fecha.toLocaleString("es-MX", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
+function escaparHtml(valor) {
+    return String(valor).replace(/[&<>"']/g, (caracter) => {
+        const entidades = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        };
+
+        return entidades[caracter];
+    });
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 }
 
 function filtrar() {
@@ -1358,6 +1627,7 @@ function filtrar() {
 }
 
 function limpiarFiltros() {
+<<<<<<< HEAD
     const elCiudad = document.getElementById("filtroCiudad");
     const elEdad = document.getElementById("filtroEdad");
     const elSexo = document.getElementById("filtroSexo");
@@ -1367,6 +1637,12 @@ function limpiarFiltros() {
     if (elEdad) elEdad.value = "todos";
     if (elSexo) elSexo.value = "todos";
     if (elSangre) elSangre.value = "todos";
+=======
+    document.getElementById("filtroCiudad").value = "todos";
+    document.getElementById("filtroEdad").value = "todos";
+    document.getElementById("filtroSexo").value = "todos";
+    document.getElementById("filtroSangre").value = "todos";
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 
     document.querySelectorAll(".persona").forEach((persona) => {
         persona.classList.remove("oculto");
@@ -1374,3 +1650,40 @@ function limpiarFiltros() {
 
     actualizarResumen();
 }
+<<<<<<< HEAD
+=======
+
+function actualizarResumen() {
+    const personas = Array.from(document.querySelectorAll(".persona"));
+    const visibles = personas.filter((persona) => !persona.classList.contains("oculto"));
+    const ciudades = new Set(personas.map((persona) => persona.dataset.ciudad));
+    const tipos = new Set(personas.map((persona) => persona.dataset.sangre));
+
+    const totalPersonas = document.getElementById("totalPersonas");
+    if (!totalPersonas) {
+        return;
+    }
+
+    document.getElementById("totalPersonas").textContent = personas.length;
+    document.getElementById("totalCiudades").textContent = ciudades.size;
+    document.getElementById("totalTipos").textContent = tipos.size;
+    document.getElementById("personasVisibles").textContent = visibles.length;
+
+    const mensaje = document.getElementById("mensajeResultado");
+    if (!mensaje) {
+        return;
+    }
+
+    if (visibles.length === personas.length) {
+        mensaje.textContent = "Mostrando todos los registros.";
+        return;
+    }
+
+    if (visibles.length === 0) {
+        mensaje.textContent = "No se encontraron resultados con esos filtros.";
+        return;
+    }
+
+    mensaje.textContent = `Se encontraron ${visibles.length} registros.`;
+}
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c

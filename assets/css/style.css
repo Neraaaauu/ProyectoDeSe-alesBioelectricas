@@ -39,6 +39,7 @@ body {
     padding: 32px 0 56px;
 }
 
+<<<<<<< HEAD
 body.has-top-back .app-shell {
     padding-top: 92px;
 }
@@ -79,6 +80,8 @@ body.has-top-back .app-shell {
     line-height: 1;
 }
 
+=======
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 .home-view,
 .login-view,
 .survey-view,
@@ -472,6 +475,7 @@ body.has-top-back .app-shell {
         padding: 20px 0 40px;
     }
 
+<<<<<<< HEAD
     body.has-top-back .app-shell {
         padding-top: 82px;
     }
@@ -483,6 +487,8 @@ body.has-top-back .app-shell {
         font-size: 0.88rem;
     }
 
+=======
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
     .login-copy,
     .access-card,
     .login-form,
