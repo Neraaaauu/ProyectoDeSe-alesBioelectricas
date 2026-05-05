@@ -192,7 +192,6 @@ canvas {
 /* --- UTILIDADES --- */
 .hidden { display: none !important; }
 .text-center { text-align: center; }
-<<<<<<< HEAD
 
 /* ── Límite notice ─── */
 .limite-aviso {
@@ -204,5 +203,3 @@ canvas {
     padding: 6px 12px;
     display: inline-block;
 }
-=======
->>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
