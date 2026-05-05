@@ -1,3 +1,437 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrocardiograma</title>
+
+    <link rel="manifest" href="../manifest.json">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fcead9 0%, #e2eeea 100%);
+            --primary: #15658f;
+            --primary-dark: #0f4a6b;
+            --panel-bg: rgba(255, 255, 255, 0.7);
+            --panel-border: rgba(255, 255, 255, 0.8);
+            --radius: 24px;
+            --font-main: 'Outfit', sans-serif;
+        }
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        body {
+            margin: 0; font-family: var(--font-main);
+            background: var(--bg-gradient); background-attachment: fixed;
+            min-height: 100vh; display: flex; justify-content: center;
+            align-items: flex-start; padding: 20px;
+        }
+        .app-container { width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 20px; }
+        .top-back-button {
+            position: fixed; top: 20px; left: 24px; z-index: 1200;
+            display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+            padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(21, 101, 143, 0.18);
+            background: rgba(255,255,255,0.92); color: var(--primary-dark);
+            box-shadow: 0 14px 36px rgba(0,0,0,0.16); font-family: var(--font-main);
+            font-size: 0.95rem; font-weight: 700; line-height: 1; text-decoration: none; cursor: pointer;
+        }
+        .top-back-button:hover, .top-back-button:focus-visible {
+            background: #fff; color: var(--primary); transform: translateY(-2px); outline: none;
+        }
+        .top-back-button span { font-size: 1.15rem; line-height: 1; }
+        h2 { color: var(--primary-dark); font-weight: 800; text-align: center; margin: 0; font-size: 2rem; }
+        .card {
+            background: var(--panel-bg); backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px); border: 1px solid var(--panel-border);
+            border-radius: var(--radius); padding: 30px; box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+        .chart-container {
+            position: relative; width: 100%; height: 400px;
+            background: rgba(255, 255, 255, 0.4); border-radius: 16px;
+            margin-bottom: 10px; padding: 10px; border: 1px solid rgba(0,0,0,0.05);
+        }
+        #seccionInfe { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        #loadingMsg { font-size: 1rem; color: var(--primary); font-weight: 600; padding: 10px; }
+        #errorMsg { font-size: 1rem; color: #c0392b; font-weight: 600; padding: 10px; display: none; }
+        .botones-fila { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        button.btn-accion {
+            padding: 12px 26px; border-radius: 50px; border: none;
+            background: var(--primary); color: white; font-weight: 600; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(21, 101, 143, 0.3); font-size: 0.95rem; font-family: var(--font-main);
+        }
+        button.btn-accion:hover {
+            background: var(--primary-dark); transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(21, 101, 143, 0.4);
+        }
+        #derivaciones {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px; width: 100%; padding: 20px; background: rgba(255,255,255,0.3); border-radius: 16px;
+        }
+        #derivaciones label { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 600; color: #444; cursor: pointer; }
+        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
+        #InfoGen { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 20px; }
+        #InfoGen label { font-size: 0.95rem; color: #333; }
+        strong { color: var(--primary-dark); }
+        .info-muestra { font-size: 0.8rem; color: #666; text-align: center; padding: 2px 0 8px; }
+        @media (max-width: 640px) {
+            body { padding-top: 78px; }
+            .top-back-button { top: 14px; left: 12px; padding: 10px 14px; font-size: 0.88rem; }
+        }
+    </style>
+</head>
+<body>
+<button class="top-back-button" type="button" onclick="volverAtras()" aria-label="Regresar a la página anterior"><span aria-hidden="true">&#8592;</span> Regresar</button>
+
+<div class="app-container">
+    <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+        <h2 style="margin:0;">Electrocardiograma</h2>
+    </div>
+    <div class="card">
+        <div class="chart-container">
+            <canvas id="OndaChart"></canvas>
+        </div>
+        <p class="info-muestra" id="infoMuestra"></p>
+
+        <div id="seccionInfe">
+            <div id="loadingMsg">Cargando datos del ECG…</div>
+
+            <div class="botones-fila" style="display:none" id="botonesPanel">
+                <button class="btn-accion" onclick="resetZoom()">Restablecer Zoom</button>
+            </div>
+
+            <section id="derivaciones">
+                <label><input type="checkbox" id="MDC_ECG_LEAD_I"   onchange="actualizarGrafico()"> Derivación DI</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_II"  onchange="actualizarGrafico()"> Derivación DII</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_III" onchange="actualizarGrafico()"> Derivación DIII</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_AVR" onchange="actualizarGrafico()"> Derivación aVR</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_AVL" onchange="actualizarGrafico()"> Derivación aVL</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_AVF" onchange="actualizarGrafico()"> Derivación aVF</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_V1"  onchange="actualizarGrafico()"> Derivación V1</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_V2"  onchange="actualizarGrafico()"> Derivación V2</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_V3"  onchange="actualizarGrafico()"> Derivación V3</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_V4"  onchange="actualizarGrafico()"> Derivación V4</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_V5"  onchange="actualizarGrafico()"> Derivación V5</label>
+                <label><input type="checkbox" id="MDC_ECG_LEAD_V6"  onchange="actualizarGrafico()"> Derivación V6</label>
+            </section>
+
+            <div id="errorMsg"></div>
+
+            <section id="InfoGen" style="display:none">
+                <label><strong>ID Paciente:</strong> <span id="infoID">—</span></label>
+                <label><strong>Edad:</strong> <span id="infoEdad">—</span></label>
+                <label><strong>Sexo:</strong> <span id="infoSexo">—</span></label>
+                <label><strong>Fecha de registro:</strong> <span id="infoFecha">—</span></label>
+                <label><strong>Diagnóstico:</strong> <span id="infoDx">—</span></label>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+const colores = {
+    MDC_ECG_LEAD_I:   '#15658f', MDC_ECG_LEAD_II:  '#e74c3c',
+    MDC_ECG_LEAD_III: '#2ecc71', MDC_ECG_LEAD_AVR: '#9b59b6',
+    MDC_ECG_LEAD_AVL: '#f39c12', MDC_ECG_LEAD_AVF: '#1abc9c',
+    MDC_ECG_LEAD_V1:  '#e67e22', MDC_ECG_LEAD_V2:  '#3498db',
+    MDC_ECG_LEAD_V3:  '#c0392b', MDC_ECG_LEAD_V4:  '#27ae60',
+    MDC_ECG_LEAD_V5:  '#8e44ad', MDC_ECG_LEAD_V6:  '#d35400',
+};
+const nombreDerivacion = {
+    MDC_ECG_LEAD_I:'DI', MDC_ECG_LEAD_II:'DII', MDC_ECG_LEAD_III:'DIII',
+    MDC_ECG_LEAD_AVR:'aVR', MDC_ECG_LEAD_AVL:'aVL', MDC_ECG_LEAD_AVF:'aVF',
+    MDC_ECG_LEAD_V1:'V1', MDC_ECG_LEAD_V2:'V2', MDC_ECG_LEAD_V3:'V3',
+    MDC_ECG_LEAD_V4:'V4', MDC_ECG_LEAD_V5:'V5', MDC_ECG_LEAD_V6:'V6',
+};
+
+let todasLasDerivaciones = {};
+let incrementoMs = 1;  // ms por muestra
+let chart = null;
+
+const ADMIN_IDLE_TIMEOUT_MS = 15 * 60 * 1000;
+const ADMIN_IDLE_CHECK_MS = 30000;
+const ADMIN_IDLE_EVENTS = ["click", "keydown", "mousemove", "scroll", "touchstart"];
+let adminIdleInterval = null;
+
+function adminSesionActiva() {
+    return sessionStorage.getItem('bioelectricas_admin_sesion') === 'activa';
+}
+
+function marcarActividadAdmin() {
+    if (!adminSesionActiva()) return;
+    sessionStorage.setItem('bioelectricas_admin_last_activity', String(Date.now()));
+}
+
+function ejecutarCierrePorInactividad() {
+    sessionStorage.setItem('bioelectricas_admin_timeout_notice', '1');
+    sessionStorage.removeItem('bioelectricas_admin_sesion');
+    sessionStorage.removeItem('bioelectricas_retorno_ondas');
+    sessionStorage.removeItem('bioelectricas_admin_last_activity');
+    localStorage.removeItem('ondas_referrer');
+    window.location.href = 'adminlogin.html?timeout=1';
+}
+
+function verificarInactividadAdmin() {
+    if (!adminSesionActiva()) return;
+
+    const ultimaActividad = Number(sessionStorage.getItem('bioelectricas_admin_last_activity') || 0);
+    if (!ultimaActividad) {
+        marcarActividadAdmin();
+        return;
+    }
+
+    if (Date.now() - ultimaActividad >= ADMIN_IDLE_TIMEOUT_MS) {
+        ejecutarCierrePorInactividad();
+    }
+}
+
+function iniciarAutoLogoutAdmin() {
+    if (!adminSesionActiva() || window.__ondasAdminIdleSetup) return;
+    window.__ondasAdminIdleSetup = true;
+
+    ADMIN_IDLE_EVENTS.forEach((evt) => {
+        window.addEventListener(evt, marcarActividadAdmin, { passive: true });
+    });
+
+    adminIdleInterval = window.setInterval(verificarInactividadAdmin, ADMIN_IDLE_CHECK_MS);
+    verificarInactividadAdmin();
+}
+
+// ----- Utilidades XML -----
+
+async function cargarXML(url) {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return new DOMParser().parseFromString(await resp.text(), 'text/xml');
+}
+
+function parsearDerivaciones(xmlDoc) {
+    const resultado = {};
+
+    // 1. Determinar el incremento de tiempo (Frecuencia de muestreo)
+    const incEl = xmlDoc.querySelector('increment');
+    if (incEl) {
+        const val = parseFloat(incEl.getAttribute('value'));
+        const unit = (incEl.getAttribute('unit') || 's').toLowerCase();
+        incrementoMs = (unit === 's') ? val * 1000 : val;
+    }
+
+    const todasLasSecuencias = xmlDoc.querySelectorAll('sequence');
+
+    todasLasSecuencias.forEach(seq => {
+        const codeEl = seq.querySelector('code');
+        const digitsEl = seq.querySelector('digits');
+        
+        if (codeEl && digitsEl) {
+            let leadCode = codeEl.getAttribute('code') || '';
+            
+            // Normalizar el código para que coincida con los IDs (MDC_ECG_LEAD_X)
+            if (!leadCode.startsWith('MDC_ECG_LEAD_')) {
+                leadCode = 'MDC_ECG_LEAD_' + leadCode;
+            }
+
+            const scaleEl = seq.querySelector('scale');
+            const escala = scaleEl ? (parseFloat(scaleEl.getAttribute('value')) || 1) : 1;
+            
+            // Convertir texto de dígitos a Array de números
+            const vals = digitsEl.textContent.trim().split(/\s+/).map(v => parseFloat(v) * escala);
+
+            if (!resultado[leadCode] || vals.length > resultado[leadCode].length) {
+                resultado[leadCode] = vals;
+            }
+        }
+    });
+
+    console.log("Derivaciones detectadas:", Object.keys(resultado));
+    return resultado;
+}
+
+function parsearInfoPaciente(xmlDoc) {
+    try {
+        const pid  = xmlDoc.querySelector('PatientID')?.textContent || '—';
+        const edad = (xmlDoc.querySelector('Age')?.textContent || '').replace('P','').replace(/y$/i,' años') || '—';
+        const sc   = xmlDoc.querySelector('administrativeGenderCode')?.getAttribute('code');
+        const sexo = sc === 'F' ? 'Femenino' : sc === 'M' ? 'Masculino' : '—';
+        const fr   = xmlDoc.querySelector('effectiveTime > low')?.getAttribute('value') || '';
+        const fecha = fr ? `${fr.slice(6,8)}/${fr.slice(4,6)}/${fr.slice(0,4)}` : '—';
+
+        document.getElementById('infoID').textContent   = pid;
+        document.getElementById('infoEdad').textContent  = edad;
+        document.getElementById('infoSexo').textContent  = sexo;
+        document.getElementById('infoFecha').textContent = fecha;
+
+        for (const ann of xmlDoc.querySelectorAll('annotation')) {
+            if (ann.querySelector('code')?.getAttribute('code') === 'MDC_ECG_INTERPRETATION_SUMMARY') {
+                const v = ann.querySelector('value');
+                if (v) document.getElementById('infoDx').textContent = v.textContent;
+            }
+        }
+    } catch(e) {}
+}
+
+// ----- Gráfico -----
+
+function inicializarGrafico() {
+    const ctx = document.getElementById('OndaChart').getContext('2d');
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: [], datasets: [] },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            normalized: true,
+            elements: {
+                point: { radius: 0 }
+            },
+            plugins: {
+                legend: { labels: { color: '#333', font: { family: 'Outfit' } } },
+                tooltip: {
+                    callbacks: {
+                        title: items => `${items[0].label} ms`,
+                        label: ctx => {
+                            const mV = (ctx.parsed.y / 1000).toFixed(4);
+                            return `${ctx.dataset.label}: ${mV} mV`;
+                        }
+                    }
+                },
+                zoom: {
+                    pan:  { enabled: true, mode: 'xy' },
+                    zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'xy' }
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Tiempo (ms)', color: '#555', font: { family: 'Outfit', size: 12 } },
+                    ticks: {
+                        color: '#666',
+                        maxTicksLimit: 20,
+                    },
+                    grid: { color: 'rgba(0,0,0,0.05)' }
+                },
+                y: {
+                    title: { display: true, text: 'Amplitud (mV)', color: '#555', font: { family: 'Outfit', size: 12 } },
+                    ticks: {
+                        color: '#666',
+                        callback: v => (v / 1000).toFixed(3) + ' mV'
+                    },
+                    grid: { color: 'rgba(0,0,0,0.05)' }
+                }
+            }
+        }
+    });
+}
+
+function actualizarGrafico() {
+    const datasets = [];
+    let maxLen = 0;
+
+    for (const [codigo, datos] of Object.entries(todasLasDerivaciones)) {
+        const cb = document.getElementById(codigo);
+        if (!cb || !cb.checked) continue;
+        if (datos.length > maxLen) maxLen = datos.length;
+
+        datasets.push({
+            label:       nombreDerivacion[codigo] || codigo,
+            data:        datos,          
+            borderColor: colores[codigo] || '#333',
+            borderWidth: 1,
+            tension:     0,
+            pointRadius: 0,
+            fill:        false
+        });
+    }
+
+    const etiquetas = Array.from({ length: maxLen }, (_, i) =>
+        (i * incrementoMs).toFixed(incrementoMs < 1 ? 1 : 0)
+    );
+
+    chart.data.labels   = etiquetas;
+    chart.data.datasets = datasets;
+    chart.update();
+
+    // Info de muestra
+    if (maxLen > 0) {
+        const durMs = ((maxLen - 1) * incrementoMs).toFixed(0);
+        document.getElementById('infoMuestra').textContent =
+            `${maxLen.toLocaleString()} muestras · Duración: ${durMs} ms · Resolución: ${incrementoMs} ms/muestra · Amplitud en mV`;
+    }
+}
+
+function resetZoom() { if (chart) chart.resetZoom(); }
+
+// ----- Main -----
+
+async function main() {
+    inicializarGrafico();
+    try {
+        // 1. Buscamos el archivo que se guardó en memoria al darle "Ver Señales"
+        const xmlGuardado = localStorage.getItem('xml_visualizar_actual');
+            let xmlDoc;
+
+            if (xmlGuardado) {
+                const parser = new DOMParser();
+                xmlDoc = parser.parseFromString(xmlGuardado, 'text/xml');
+                console.log("Cargando archivo del repositorio");
+            } else {
+                // Si no hay nada en memoria, cargamos tu archivo original de prueba
+                const rutaXML = 'prueba0.xml';
+                xmlDoc = await cargarXML(rutaXML);
+                console.log("Cargando archivo local");
+            }
+
+        if (xmlDoc.querySelector('parsererror'))
+            throw new Error('El archivo XML tiene errores de formato.');
+
+        todasLasDerivaciones = parsearDerivaciones(xmlDoc);
+        if (Object.keys(todasLasDerivaciones).length === 0)
+            throw new Error('No se encontraron derivaciones en el XML.');
+
+        parsearInfoPaciente(xmlDoc);
+
+        document.getElementById('loadingMsg').style.display = 'none';
+        document.getElementById('botonesPanel').style.display = 'flex';
+        document.getElementById('InfoGen').style.display = 'grid';
+
+        // Activar primera derivación disponible
+        const primera = Object.keys(todasLasDerivaciones)[0];
+        if (primera) {
+            const cb = document.getElementById(primera);
+            if (cb) cb.checked = true;
+        }
+        actualizarGrafico();
+
+    } catch(err) {
+        document.getElementById('loadingMsg').style.display = 'none';
+        const errEl = document.getElementById('errorMsg');
+        errEl.style.display = 'block';
+        errEl.textContent   = 'Error: ' + err.message;
+        console.error(err);
+    }
+}
+
+function volverAtras() {
+    const ref = localStorage.getItem('ondas_referrer');
+    localStorage.removeItem('ondas_referrer');
+
+    if (ref) {
+        window.location.href = ref;
+    } else {
+        history.back();
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    iniciarAutoLogoutAdmin();
+    main();
+});
+</script>
+<script src="../assets/js/offline.js"></script>
+</body>
+</html>
+=======
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -391,3 +825,4 @@
     </script>
 </body>
 </html>
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c

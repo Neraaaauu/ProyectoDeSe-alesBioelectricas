@@ -2,6 +2,18 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
+<<<<<<< HEAD
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="BioSigLab - Laboratorio virtual de señales bioeléctricas de la UABC">
+    <meta name="theme-color" content="#1B4965">
+    <title>BioSigLab - UABC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="assets/css/basestyle.css">
+</head>
+<body>
+    <!-- Navegación -->
+=======
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BioSigLab - UABC</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -9,11 +21,62 @@
 </head>
 <body>
 
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
     <nav class="navbar">
         <div class="nav-brand">
             <span class="logo-text">BioSigLab</span>
             <span class="logo-badge">UABC</span>
         </div>
+<<<<<<< HEAD
+        <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="siteMenu" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div id="siteMenu" class="nav-links">
+            <a href="#about">Proyecto</a>
+            <a href="#resources">Recursos</a>
+            <a href="pages/usuario.html">Explorar señales</a>   
+            <a href="pages/equipo.html">Equipo</a>
+            <a href="pages/contactos.html">Contacto</a>
+        </div>
+    </nav>
+    <div id="navBackdrop" class="nav-backdrop" onclick="closeMenu()"></div>
+
+    <!-- Sección Hero -->
+    <header class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>BioSig Lab: Laboratorio virtual de señales bioeléctricas</h1>
+            <p>Explora, visualiza y accede a señales bioeléctricas reales</p>
+            <div class="hero-actions">
+                <a href="pages/usuario.html" class="btn-primary">Explorar señales</a>
+                <a href="#about" class="btn-glass">Saber más</a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Estadísticas rápidas -->
+    <section class="quick-stats">
+        <div class="quick-stats-grid">
+            <div class="quick-stat">
+                <strong>Acceso libre</strong>
+                <span>Para investigadores, docentes y estudiantes.</span>
+            </div>
+            <div class="quick-stat">
+                <strong>Enfoque regional</strong>
+                <span>Datos pensados para población latina del noroeste.</span>
+            </div>
+            <div class="quick-stat">
+                <strong>Uso científico</strong>
+                <span>Consulta, análisis y desarrollo de modelos biomédicos.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Acerca de -->
+=======
         <div class="nav-links">
             <div class="nav-links">
          <a href="pages/usuario.html">Descarga</a>
@@ -37,11 +100,35 @@
         </div>
     </header>
 
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
     <section id="about" class="about-section">
         <div class="about-container">
             <div class="about-text">
                 <p class="eyebrow">Sobre el proyecto</p>
                 <h2>¿Qué es BioSigLab?</h2>
+<<<<<<< HEAD
+                <p>Bienvenidos a nuestra plataforma colaborativa diseñada para estudiantes, docentes e investigadores. Nuestro objetivo es facilitar el acceso a registros de señales bioeléctricas adquiridas en proyectos de investigación multidisciplinarios, fomentando el desarrollo de modelos de análisis y herramientas educativas.</p>
+                <p>Actualmente albergamos nuestra primera colección: una base de datos de señales electrocardiográficas (ECG) representativas de la población bajacaliforniana, con miras a expandir nuestro repositorio integrando señales EEG, EMG y más.</p>
+                <div class="about-actions">
+                    <a href="pages/usuario.html" class="btn-primary">Ir al repositorio</a>
+                    <a href="#resources" class="btn-secondary">Ver recursos</a>
+                </div>
+            </div>
+            <div class="about-image-card">
+                <div class="about-image-overlay">
+                    <p class="eyebrow">Impacto esperado</p>
+                    <h3>Datos más representativos para investigación cardiovascular</h3>
+                    <p>Una plataforma diseñada para ampliar la diversidad de registros usados en docencia, análisis clínico e inteligencia artificial.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Recursos -->
+    <section id="resources" class="features-section">
+        <div class="features-header">
+            <p class="eyebrow">Recursos</p>
+=======
                 <p>BioSigLab es un proyecto de investigación de la <strong>Universidad Autónoma de Baja California (UABC)</strong>. Su objetivo es construir una base de datos de señales electrocardiográficas (ECG) de pacientes del noroeste de México.</p>
                 <p>La mayoría de las bases de datos de ECG que existen fueron creadas con población de Estados Unidos, Europa o Asia. BioSigLab busca llenar este vacío, lo cual es vital para la precisión de las nuevas tecnologías en nuestra región.</p>
                 <p>Los datos son de <strong>acceso libre</strong> para investigadores, estudiantes y docentes.</p>
@@ -53,6 +140,7 @@
 
     <section class="features-section">
         <div class="features-header">
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
             <h2>Recursos de la Plataforma</h2>
             <p>Accede a nuestra documentación, herramientas y equipo de trabajo.</p>
         </div>
@@ -61,23 +149,40 @@
             <article class="feature-card card-ecg">
                 <div class="card-content">
                     <h3>Señales ECG</h3>
+<<<<<<< HEAD
+                    <hr class="card-divider">
+                    <p>Explora registros electrocardiográficos organizados para consulta académica, análisis clínico y desarrollo de modelos de IA.</p>
+                    <a href="pages/usuario.html" class="card-link">Ver señales →</a>
+=======
                     <p>Lorem ipsum dolor sit sigo sin recordar</p>
                     <a href="biosignales.com" class="card-link">Ver señales →</a>
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
                 </div>
             </article>
 
             <article class="feature-card card-protocol">
                 <div class="card-content">
                     <h3>Protocolo</h3>
+<<<<<<< HEAD
+                    <hr class="card-divider">
+                    <p>Consulta la metodología de adquisición, el tratamiento de datos y los lineamientos que respaldan cada registro.</p>
+                    <a href="pages/protocolo.html" class="card-link">Conocer proyecto →</a>
+=======
                     <p>Lorem ipsum dolor sit ya no me acuerdo que sigue</p>
                     <a href="protocolo.com" class="card-link">Ver protocolo →</a>
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
                 </div>
             </article>
 
             <article class="feature-card card-team">
                 <div class="card-content">
                     <h3>Equipo</h3>
+<<<<<<< HEAD
+                    <hr class="card-divider">
+                    <p>Conoce al equipo multidisciplinario de la UABC que impulsa esta iniciativa de investigación biomédica.</p>
+=======
                     <p>Conoce a los desarrolladores detrás de este proyecto de la UABC.</p>
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
                     <a href="pages/equipo.html" class="card-link">Ver equipo →</a>
                 </div>
             </article>
@@ -85,13 +190,79 @@
             <article class="feature-card card-contact">
                 <div class="card-content">
                     <h3>Contacto</h3>
+<<<<<<< HEAD
+                    <hr class="card-divider">
+                    <p>Si deseas colaborar, resolver dudas o aportar información al proyecto, estaremos encantados de leerte.</p>
+=======
                     <p>¿Tienes preguntas, quieres aportar archivos o colaborar? Escríbenos.</p>
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
                     <a href="pages/contactos.html" class="card-link">Ir a contacto →</a>
                 </div>
             </article>
         </div>
     </section>
 
+<<<<<<< HEAD
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 BioSigLab - Universidad Autónoma de Baja California. Todos los derechos reservados.</p>
+            <a href="pages/adminlogin.html" class="footer-admin-link">Portal administrativo</a>
+        </div>
+    </footer>
+
+    <!-- Script -->
+    <script src="assets/js/offline.js"></script>
+    <script>
+        function syncMenuState(isOpen) {
+            const menu = document.getElementById("siteMenu");
+            const button = document.querySelector(".nav-toggle");
+            const backdrop = document.getElementById("navBackdrop");
+
+            menu.classList.toggle("is-open", isOpen);
+            button.setAttribute("aria-expanded", String(isOpen));
+            document.body.classList.toggle("menu-open", isOpen);
+            backdrop.classList.toggle("is-visible", isOpen);
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById("siteMenu");
+            syncMenuState(!menu.classList.contains("is-open"));
+        }
+
+        function closeMenu() {
+            syncMenuState(false);
+        }
+
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll("#siteMenu a").forEach((link) => {
+            link.addEventListener("click", () => {
+                closeMenu();
+            });
+        });
+
+        // Cerrar menú al redimensionar pantalla
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
+
+        // Cerrar menú con tecla Escape
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        // Cerrar menú al hacer scroll
+        document.addEventListener("scroll", () => {
+            if (document.getElementById("siteMenu").classList.contains("is-open")) {
+                closeMenu();
+            }
+        }, { passive: true });
+    </script>
+=======
     <footer class="site-footer">
     <div class="footer-content">
         <p>© 2026 BioSigLab - Universidad Autónoma de Baja California. Todos los derechos reservados.</p>
@@ -100,5 +271,6 @@
 </footer>
 
 
+>>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 </body>
 </html>

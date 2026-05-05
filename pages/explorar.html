@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Señales - BioSigLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        /* Ajuste para que los 5 filtros se vean bien alineados */
+        .filtros-grid {
+            display: grid; 
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr; 
+            gap: 15px; 
+            margin-top: 10px;
+            align-items: flex-end;
+        }
+        @media (max-width: 900px) {
+            .filtros-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 500px) {
+            .filtros-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* Etiqueta visual para indicar que la tabla está limitada al inicio */
+        .limite-aviso {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="has-top-back">
+    <a class="top-back-button" href="../index.html" aria-label="Regresar al inicio"><span aria-hidden="true">&#8592;</span> Regresar</a>
+    <main class="app-shell">
+
+        <section class="user-view">
+            <header class="admin-header">
+                <div>
+                    <p class="eyebrow">Acceso Público</p>
+                    <h2>Explorador de Señales Bioeléctricas</h2>
+                    <p class="hero-text">Visualiza las señales clínicas disponibles en nuestro repositorio. Para descargar los archivos XML, requieres registrarte como usuario.</p>
+                </div>
+            </header>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <div>
+                        <p class="eyebrow">Filtros Avanzados</p>
+                        <h3>Búsqueda de expedientes</h3>
+                    </div>
+                </div>
+                
+                <div class="filtros-grid">
+                    <label class="field">
+                        <span>Buscador (ID o Nombre)</span>
+                        <input type="text" id="buscarGeneral" placeholder="Buscar..." onkeyup="filtrarExplorador()">
+                    </label>
+                    
+                    <label class="field">
+                        <span>Señal</span>
+                        <select id="filtroTipoSenal" onchange="filtrarExplorador()">
+                            <option value="todos">Todos</option>
+                            <option value="ecg">ECG</option>
+                            <option value="emg">EMG</option>
+                            <option value="eeg">EEG</option>
+                        </select>
+                    </label>
+
+                    <label class="field">
+                        <span>Género</span>
+                        <select id="filtroGenero" onchange="filtrarExplorador()">
+                            <option value="todos">Todos</option>
+                            <option value="M">Masculino (M)</option>
+                            <option value="F">Femenino (F)</option>
+                        </select>
+                    </label>
+                    
+                    <label class="field">
+                        <span>Edad Mín.</span>
+                        <input type="number" id="filtroEdadMin" placeholder="0" min="0" max="120" onkeyup="filtrarExplorador()" onchange="filtrarExplorador()">
+                    </label>
+
+                    <label class="field">
+                        <span>Edad Máx.</span>
+                        <input type="number" id="filtroEdadMax" placeholder="120" min="0" max="120" onkeyup="filtrarExplorador()" onchange="filtrarExplorador()">
+                    </label>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div id="avisoLimite" class="limite-aviso">Mostrando muestra de archivos recientes. Usa los filtros para buscar más.</div>
+                <div class="table-container" style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #2c3e50; color: white; text-align: left;">
+                                <th style="padding: 12px; border-bottom: 2px solid #1a252f;">ID / Archivo</th>
+                                <th style="padding: 12px; border-bottom: 2px solid #1a252f;">Edad</th>
+                                <th style="padding: 12px; border-bottom: 2px solid #1a252f;">Género</th>
+                                <th style="padding: 12px; border-bottom: 2px solid #1a252f;">Equipo</th>
+                                <th style="padding: 12px; border-bottom: 2px solid #1a252f; text-align: center;">Visualización</th>
+                            </tr>
+                        </thead>
+                        <tbody id="xmlListTable">
+                            </tbody>
+                    </table>
+                </div>
+                <p id="mensajeSinResultados" style="display: none; text-align: center; padding: 20px; color: #666;">No hay archivos que coincidan con tu búsqueda.</p>
+            </section>
+        </section>
+
+    </main>
+
+    <script src="../assets/js/offline.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            renderizarExplorador();
+        });
+
+        // 1. Obtener archivos desde la memoria (donde los guardó el admin)
+        function obtenerArchivos() { 
+            return JSON.parse(localStorage.getItem("bioelectricas_archivos_xml") || "[]"); 
+        }
+
+        // Función auxiliar para escapar caracteres (seguridad)
+        function escaparHtml(valor) {
+            return String(valor).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+        }
+
+        // 2. Renderizar la tabla (SIN EL BOTÓN DE DESCARGAR)
+        function renderizarExplorador() {
+            const contenedor = document.getElementById("xmlListTable");
+            if (!contenedor) return;
+
+            const archivos = obtenerArchivos();
+            contenedor.innerHTML = "";
+
+            archivos.forEach((archivo) => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td style="padding: 12px;">${escaparHtml(archivo.paciente_id_xml || archivo.nombre)}</td>
+                    <td style="padding: 12px;">${escaparHtml(archivo.edad_xml || "N/A")}</td>
+                    <td style="padding: 12px;">${escaparHtml(archivo.genero_xml || "N/A")}</td>
+                    <td style="padding: 12px;">${escaparHtml(archivo.equipo_xml || "N/A")}</td>
+                    <td style="padding: 12px; text-align: center;">
+                        <button class="primary-button" onclick="verOndasPublico('${archivo.id}')">Ver Señales</button>
+                    </td>
+                `;
+                contenedor.appendChild(fila);
+            });
+
+            // Aplicamos el límite de 5 después de pintar la tabla
+            setTimeout(aplicarLimiteCinco, 50);
+        }
+
+        // 3. Función para mandar el archivo al visualizador de Ondas.html
+        window.verOndasPublico = function(idArchivo) {
+            const archivos = obtenerArchivos();
+            const archivoEncontrado = archivos.find(a => a.id === idArchivo);
+            if (archivoEncontrado) {
+                localStorage.setItem('xml_visualizar_actual', archivoEncontrado.contenido);
+                window.location.href = "Ondas.html";
+            }
+        };
+
+        // 4. Lógica de los primeros 5 archivos
+        function aplicarLimiteCinco() {
+            const filas = document.querySelectorAll("#xmlListTable tr");
+            let contador = 0;
+            
+            filas.forEach((fila) => {
+                if (contador < 5) {
+                    fila.style.display = "";
+                } else {
+                    fila.style.display = "none";
+                }
+                contador++;
+            });
+
+            const msj = document.getElementById("mensajeSinResultados");
+            const aviso = document.getElementById("avisoLimite");
+            if(msj) msj.style.display = "none";
+            if(aviso) aviso.style.display = filas.length > 5 ? "block" : "none";
+        }
+
+        // 5. El Filtrador Dinámico
+        window.filtrarExplorador = function() {
+            const busqueda = document.getElementById("buscarGeneral").value.toLowerCase();
+            const tipoSenal = document.getElementById("filtroTipoSenal").value.toLowerCase();
+            const genero = document.getElementById("filtroGenero").value;
+            const inputEdadMin = document.getElementById("filtroEdadMin").value;
+            const inputEdadMax = document.getElementById("filtroEdadMax").value;
+            
+            const hayFiltros = busqueda !== "" || tipoSenal !== "todos" || genero !== "todos" || inputEdadMin !== "" || inputEdadMax !== "";
+            const filas = document.querySelectorAll("#xmlListTable tr");
+            
+            if (!hayFiltros) {
+                aplicarLimiteCinco();
+                return;
+            }
+
+            const aviso = document.getElementById("avisoLimite");
+            if(aviso) aviso.style.display = "none";
+
+            const edadMin = inputEdadMin !== "" ? parseInt(inputEdadMin) : 0;
+            const edadMax = inputEdadMax !== "" ? parseInt(inputEdadMax) : 999;
+            
+            let visibles = 0;
+
+            filas.forEach(fila => {
+                const idNombre = fila.cells[0]?.textContent.toLowerCase() || "";
+                const fEdadStr = fila.cells[1]?.textContent || "";
+                const fGenero = fila.cells[2]?.textContent || "";
+
+                let coincide = true;
+
+                if (busqueda && !idNombre.includes(busqueda)) coincide = false;
+                if (tipoSenal !== "todos" && !idNombre.includes(tipoSenal)) coincide = false;
+                if (genero !== "todos" && fGenero !== genero) coincide = false;
+                
+                const fEdadNum = parseInt(fEdadStr.replace(/\D/g, '')); 
+                if (!isNaN(fEdadNum)) {
+                    if (fEdadNum < edadMin || fEdadNum > edadMax) {
+                        coincide = false;
+                    }
+                }
+
+                fila.style.display = coincide ? "" : "none";
+                if (coincide) visibles++;
+            });
+
+            const msj = document.getElementById("mensajeSinResultados");
+            if(msj) msj.style.display = (visibles === 0 && filas.length > 0) ? "block" : "none";
+        };
+    </script>
+</body>
+</html>

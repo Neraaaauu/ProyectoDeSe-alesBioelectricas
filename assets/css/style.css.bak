@@ -39,49 +39,6 @@ body {
     padding: 32px 0 56px;
 }
 
-<<<<<<< HEAD
-body.has-top-back .app-shell {
-    padding-top: 92px;
-}
-
-.top-back-button {
-    position: fixed;
-    top: 20px;
-    left: 24px;
-    z-index: 1200;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 44px;
-    padding: 10px 16px;
-    border: 1px solid rgba(13, 105, 158, 0.18);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--primary-dark);
-    box-shadow: 0 14px 36px rgba(18, 39, 34, 0.18);
-    font: inherit;
-    font-size: 0.95rem;
-    font-weight: 700;
-    line-height: 1;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.top-back-button:hover,
-.top-back-button:focus-visible {
-    background: #ffffff;
-    color: var(--primary);
-    transform: translateY(-2px);
-    outline: none;
-}
-
-.top-back-button span {
-    font-size: 1.15rem;
-    line-height: 1;
-}
-
-=======
->>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
 .home-view,
 .login-view,
 .survey-view,
@@ -475,20 +432,6 @@ body.has-top-back .app-shell {
         padding: 20px 0 40px;
     }
 
-<<<<<<< HEAD
-    body.has-top-back .app-shell {
-        padding-top: 82px;
-    }
-
-    .top-back-button {
-        top: 14px;
-        left: 12px;
-        padding: 10px 14px;
-        font-size: 0.88rem;
-    }
-
-=======
->>>>>>> ee135220a529e621e0b8e21654f0e3e2f8f8ba9c
     .login-copy,
     .access-card,
     .login-form,
